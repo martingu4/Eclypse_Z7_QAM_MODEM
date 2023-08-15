@@ -1,0 +1,20 @@
+# Ignore all generated files in IP directory to keep only .xci
+/Sources/ip/*/*
+!/Sources/ip/*/*.xci
+
+# Ignore all files from block designs except .bd and .xci
+/Sources/bd/*/*.*
+!/Sources/bd/*/*.bd
+/Sources/bd/*/ip/*/*
+!/Sources/bd/*/ip/*/*.xci
+/Sources/bd/*/ui/
+/Sources/bd/*/synth/
+/Sources/bd/*/sim/
+/Sources/bd/*/ipshared/
+/Sources/bd/*/hdl/
+/Sources/bd/*/hw_handoff/
+
+# Ignore all project files except the .xpr
+/Vivado_Proj/*/
+/Vivado_Proj/*.*
+!/Vivado_Proj/*.xpr
