@@ -88,13 +88,13 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PPRDIR/../Sources/Modulator/RNG.vhd">
+      <File Path="$PPRDIR/../Sources/Modulator/Mapper.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../Sources/Modulator/Modulator.vhd">
+      <File Path="$PPRDIR/../Sources/Modulator/RNG.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -102,7 +102,12 @@
       </File>
       <File Path="$PPRDIR/../Sources/Modulator/SymRateGen.vhd">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../Sources/Modulator/Modulator.vhd">
+        <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -126,13 +131,6 @@
         <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_vio_0_0/Top_Design_vio_0_0.xci">
           <Proxy FileSetName="Top_Design_vio_0_0"/>
         </CompFileExtendedInfo>
-      </File>
-      <File Path="$PPRDIR/../Sources/Modulator/Mapper.vhd">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
