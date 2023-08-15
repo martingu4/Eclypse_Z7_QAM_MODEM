@@ -31,10 +31,10 @@ architecture Behavioral of Modulator_TB is
     -- Clock and reset signals
     signal clk              : std_logic := '1';
     signal resetn           : std_logic := '0';
-    constant HALF_PERIOD    : time := 2.5ns;
-    constant PERIOD         : time := 5ns;
+    constant HALF_PERIOD    : time := 4.166666667ns; -- 120 MHz
+    constant PERIOD         : time := 2*HALF_PERIOD;
 
-    -- DUT component
+    -- DUT component(s)
     component RNG is
     port (
         clk         : in std_logic;
@@ -43,7 +43,20 @@ architecture Behavioral of Modulator_TB is
         );
     end component RNG;
 
+    component Mapper is
+    port (
+        clk         : in std_logic;
+        resetn      : in std_logic;
+        symbol      : in std_logic_vector(1 downto 0);
+        I           : out std_logic_vector(15 downto 0);
+        Q           : out std_logic_vector(15 downto 0)
+    );
+    end component Mapper;
+
+    -- Signals for modules connectivity
     signal rand_data        : std_logic_vector(1 downto 0);
+    signal I                : std_logic_vector(15 downto 0);
+    signal Q                : std_logic_vector(15 downto 0);
 
 begin
 
@@ -57,6 +70,15 @@ begin
         clk         => clk,
         resetn      => resetn,
         rand_data   => rand_data
+    );
+
+    Mapper_inst : Mapper
+    port map(
+        clk         => clk,
+        resetn      => resetn,
+        symbol      => rand_data,
+        I           => I,
+        Q           => Q
     );
 
 end Behavioral;

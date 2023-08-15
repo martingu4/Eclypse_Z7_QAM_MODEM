@@ -5,6 +5,13 @@
 
 == Use the repository
 
+== TODO list
+
+. [line-through]#RNG#
+. [line-through]#Mapper#
+. Mixer
+. Output a signal on the DAC
+
 == Known issues
 
 == Useful links
