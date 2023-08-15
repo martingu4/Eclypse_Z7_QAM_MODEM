@@ -24,8 +24,16 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity RNG is
 Port (
+    -- Input clock signal
     clk         : in std_logic;
+
+    -- Input synchronous, active-low reset
     resetn      : in std_logic;
+
+    -- Input clock enable signal
+    sym_ce      : in std_logic;
+
+    -- Output symbol generated
     rand_data   : out std_logic_vector(1 downto 0)
     );
 end RNG;
@@ -46,13 +54,18 @@ begin
             if(resetn = '0') then
                 taps <= x"ACE1";
             else
-                -- Shift the register
-                for i in 0 to 14 loop
-                    taps(i) <= taps(i+1);
-                end loop;
+                if(sym_ce = '1') then
+                    -- Shift the register
+                    for i in 0 to 14 loop
+                        taps(i) <= taps(i+1);
+                    end loop;
 
-                -- Tap 0 is a combination of other taps
-                taps(15) <= taps(5) xor (taps(3) xor (taps(2) xor taps(0)));
+                    -- Tap 0 is a combination of other taps
+                    taps(15) <= taps(5) xor (taps(3) xor (taps(2) xor taps(0)));
+                else
+                    taps(15 downto 0) <= taps(15 downto 0);
+
+                end if;
             end if;
         end if;
     end process;

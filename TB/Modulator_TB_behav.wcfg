@@ -11,14 +11,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="753.001 ns"></ZoomEndTime>
-      <Cursor1Time time="92.234 ns"></Cursor1Time>
+      <ZoomEndTime time="1,514.001 ns"></ZoomEndTime>
+      <Cursor1Time time="376.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="193"></NameColumnWidth>
-      <ValueColumnWidth column_width="85"></ValueColumnWidth>
+      <ValueColumnWidth column_width="81"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="9" />
+   <WVObjectSize size="13" />
    <wvobject type="divider" fp_name="divider27">
       <obj_property name="label">Clock and reset</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -30,6 +30,18 @@
    <wvobject fp_name="/Modulator_TB/resetn" type="logic">
       <obj_property name="ElementShortName">resetn</obj_property>
       <obj_property name="ObjectShortName">resetn</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider10">
+      <obj_property name="label">Symbol rate generator</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Modulator_TB/SymRateGen_inst/presc_cnt" type="other">
+      <obj_property name="ElementShortName">presc_cnt</obj_property>
+      <obj_property name="ObjectShortName">presc_cnt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Modulator_TB/SymRateGen_inst/sym_ce" type="logic">
+      <obj_property name="ElementShortName">sym_ce</obj_property>
+      <obj_property name="ObjectShortName">sym_ce</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider28">
       <obj_property name="label">RNG</obj_property>
@@ -69,5 +81,9 @@
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
       <obj_property name="radix_fractionWidth">14</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider13">
+      <obj_property name="label">Mixer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
    </wvobject>
 </wave_config>

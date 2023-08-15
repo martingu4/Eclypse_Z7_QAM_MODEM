@@ -35,10 +35,22 @@ architecture Behavioral of Modulator_TB is
     constant PERIOD         : time := 2*HALF_PERIOD;
 
     -- DUT component(s)
+    component SymRateGen is
+    generic(
+        PRESCALE_FACTOR : integer := 12000
+    );
+    port(
+        clk         : in  std_logic;
+        resetn      : in  std_logic;
+        sym_ce      : out std_logic
+    );
+    end component SymRateGen;
+
     component RNG is
     port (
         clk         : in std_logic;
         resetn      : in std_logic;
+        sym_ce      : in std_logic;
         rand_data   : out std_logic_vector(1 downto 0)
         );
     end component RNG;
@@ -54,6 +66,7 @@ architecture Behavioral of Modulator_TB is
     end component Mapper;
 
     -- Signals for modules connectivity
+    signal sym_ce           : std_logic := '0';
     signal rand_data        : std_logic_vector(1 downto 0);
     signal I                : std_logic_vector(15 downto 0);
     signal Q                : std_logic_vector(15 downto 0);
@@ -65,10 +78,21 @@ begin
     resetn <= '0', '1' after 10*PERIOD, '0' after 100*PERIOD, '1' after 101*PERIOD;
 
     -- DUT instantiation
+    SymRateGen_inst : SymRateGen
+    generic map(
+        PRESCALE_FACTOR => 10
+    )
+    port map(
+        clk         => clk,
+        resetn      => resetn,
+        sym_ce      => sym_ce
+    );
+
     RNG_inst : RNG
     port map(
         clk         => clk,
         resetn      => resetn,
+        sym_ce      => sym_ce,
         rand_data   => rand_data
     );
 
