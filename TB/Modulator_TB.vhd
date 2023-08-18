@@ -35,74 +35,32 @@ architecture Behavioral of Modulator_TB is
     constant PERIOD         : time := 2*HALF_PERIOD;
 
     -- DUT component(s)
-    component SymRateGen is
-    generic(
-        PRESCALE_FACTOR : integer := 12000
+    component Modulator is
+    Port (
+        clk             : in std_logic;
+        resetn          : in std_logic;
+        m_sig_tdata     : out std_logic_vector(13 downto 0);
+        m_sig_tvalid    : out std_logic;
+        m_sig_tready    : in std_logic
     );
-    port(
-        clk         : in  std_logic;
-        resetn      : in  std_logic;
-        sym_ce      : out std_logic
-    );
-    end component SymRateGen;
+    end component Modulator;
 
-    component RNG is
-    port (
-        clk         : in std_logic;
-        resetn      : in std_logic;
-        sym_ce      : in std_logic;
-        rand_data   : out std_logic_vector(1 downto 0)
-        );
-    end component RNG;
-
-    component Mapper is
-    port (
-        clk         : in std_logic;
-        resetn      : in std_logic;
-        symbol      : in std_logic_vector(1 downto 0);
-        I           : out std_logic_vector(15 downto 0);
-        Q           : out std_logic_vector(15 downto 0)
-    );
-    end component Mapper;
-
-    -- Signals for modules connectivity
-    signal sym_ce           : std_logic := '0';
-    signal rand_data        : std_logic_vector(1 downto 0);
-    signal I                : std_logic_vector(15 downto 0);
-    signal Q                : std_logic_vector(15 downto 0);
+    signal mod_sig : std_logic_vector(13 downto 0);
 
 begin
 
     -- Clock and reset generation
     clk <= not clk after HALF_PERIOD;
-    resetn <= '0', '1' after 10*PERIOD, '0' after 100*PERIOD, '1' after 101*PERIOD;
+    resetn <= '0', '1' after 10*PERIOD;
 
     -- DUT instantiation
-    SymRateGen_inst : SymRateGen
-    generic map(
-        PRESCALE_FACTOR => 10
-    )
+    Modulator_inst : Modulator
     port map(
-        clk         => clk,
-        resetn      => resetn,
-        sym_ce      => sym_ce
-    );
-
-    RNG_inst : RNG
-    port map(
-        clk         => clk,
-        resetn      => resetn,
-        sym_ce      => sym_ce,
-        rand_data   => rand_data
-    );
-
-    Mapper_inst : Mapper
-    port map(
-        clk         => clk,
-        resetn      => resetn,
-        symbol      => rand_data,
-        I           => I,
-        Q           => Q
+        clk             => clk,
+        resetn          => resetn,
+        m_sig_tdata     => mod_sig,
+        m_sig_tvalid    => open,
+        m_sig_tready    => '0'
     );
 
 end Behavioral;
