@@ -14,7 +14,11 @@
       "ZmodAWGController_0": "",
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
-      "vio_0": ""
+      "vio_0": "",
+      "Modulator_0": "",
+      "AWG_Data_Feeder_0": "",
+      "proc_sys_reset_1": "",
+      "xlconstant_0": ""
     },
     "ports": {
       "clk_in1": {
@@ -143,9 +147,221 @@
             "value": "0"
           }
         }
+      },
+      "Modulator_0": {
+        "vlnv": "xilinx.com:module_ref:Modulator:1.0",
+        "xci_name": "Top_Design_Modulator_0_0",
+        "xci_path": "ip\\Top_Design_Modulator_0_0\\Top_Design_Modulator_0_0.xci",
+        "inst_hier_path": "Modulator_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "Modulator",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "120000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "m_sig_tdata": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
+      },
+      "AWG_Data_Feeder_0": {
+        "vlnv": "xilinx.com:module_ref:AWG_Data_Feeder:1.0",
+        "xci_name": "Top_Design_AWG_Data_Feeder_0_0",
+        "xci_path": "ip\\Top_Design_AWG_Data_Feeder_0_0\\Top_Design_AWG_Data_Feeder_0_0.xci",
+        "inst_hier_path": "AWG_Data_Feeder_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "AWG_Data_Feeder",
+          "boundary_crc": "0x0"
+        },
+        "interface_ports": {
+          "m_feed": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "TDATA_NUM_BYTES": {
+                "value": "4",
+                "value_src": "constant"
+              },
+              "TDEST_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TID_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TREADY": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "HAS_TSTRB": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TKEEP": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TLAST": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "120000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            },
+            "port_maps": {
+              "TDATA": {
+                "physical_name": "feed_data",
+                "direction": "O",
+                "left": "31",
+                "right": "0"
+              },
+              "TVALID": {
+                "physical_name": "feed_valid",
+                "direction": "O"
+              },
+              "TREADY": {
+                "physical_name": "feed_ready",
+                "direction": "I"
+              }
+            }
+          }
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_BUSIF": {
+                "value": "m_feed",
+                "value_src": "constant"
+              },
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "120000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "data_1": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "data_2": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          }
+        }
+      },
+      "proc_sys_reset_1": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "xci_name": "Top_Design_proc_sys_reset_1_0",
+        "xci_path": "ip\\Top_Design_proc_sys_reset_1_0\\Top_Design_proc_sys_reset_1_0.xci",
+        "inst_hier_path": "proc_sys_reset_1"
+      },
+      "xlconstant_0": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "Top_Design_xlconstant_0_0",
+        "xci_path": "ip\\Top_Design_xlconstant_0_0\\Top_Design_xlconstant_0_0.xci",
+        "inst_hier_path": "xlconstant_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "0"
+          },
+          "CONST_WIDTH": {
+            "value": "16"
+          }
+        }
+      }
+    },
+    "interface_nets": {
+      "AWG_Data_Feeder_0_m_feed": {
+        "interface_ports": [
+          "AWG_Data_Feeder_0/m_feed",
+          "ZmodAWGController_0/InputDataStream"
+        ]
       }
     },
     "nets": {
+      "Modulator_0_m_sig_tdata": {
+        "ports": [
+          "Modulator_0/m_sig_tdata",
+          "AWG_Data_Feeder_0/data_1"
+        ]
+      },
       "clk_in1_1": {
         "ports": [
           "clk_in1",
@@ -163,7 +379,10 @@
       "clk_wiz_0_clk120": {
         "ports": [
           "clk_wiz_0/clk120",
-          "ZmodAWGController_0/DAC_InIO_Clk"
+          "ZmodAWGController_0/DAC_InIO_Clk",
+          "Modulator_0/clk",
+          "AWG_Data_Feeder_0/clk",
+          "proc_sys_reset_1/slowest_sync_clk"
         ]
       },
       "clk_wiz_0_clk120_shifted": {
@@ -175,7 +394,8 @@
       "clk_wiz_0_locked": {
         "ports": [
           "clk_wiz_0/locked",
-          "proc_sys_reset_0/dcm_locked"
+          "proc_sys_reset_0/dcm_locked",
+          "proc_sys_reset_1/dcm_locked"
         ]
       },
       "proc_sys_reset_0_peripheral_aresetn": {
@@ -184,10 +404,23 @@
           "ZmodAWGController_0/aRst_n"
         ]
       },
+      "proc_sys_reset_1_peripheral_aresetn": {
+        "ports": [
+          "proc_sys_reset_1/peripheral_aresetn",
+          "Modulator_0/resetn",
+          "AWG_Data_Feeder_0/resetn"
+        ]
+      },
       "vio_0_probe_out0": {
         "ports": [
           "vio_0/probe_out0",
           "ZmodAWGController_0/sTestMode"
+        ]
+      },
+      "xlconstant_0_dout": {
+        "ports": [
+          "xlconstant_0/dout",
+          "AWG_Data_Feeder_0/data_2"
         ]
       }
     }

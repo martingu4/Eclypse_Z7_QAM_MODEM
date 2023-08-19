@@ -29,20 +29,20 @@ entity Modulator is
         resetn          : in std_logic;
         
         -- Output modulated signal
-        m_sig_tdata     : out std_logic_vector(13 downto 0);
+        m_sig_tdata     : out std_logic_vector(15 downto 0)
         -- TODO : implement the valid and ready logic if needed
-        m_sig_tvalid    : out std_logic;
-        m_sig_tready    : in std_logic
+--        m_sig_tvalid    : out std_logic;
+--        m_sig_tready    : in std_logic
     );
 end Modulator;
 
 architecture Behavioral of Modulator is
 
     -- Output modulated signal master AXI Stream interface
-    ATTRIBUTE X_INTERFACE_INFO : STRING;
-    ATTRIBUTE X_INTERFACE_INFO of m_sig_tdata: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TDATA";
-    ATTRIBUTE X_INTERFACE_INFO of m_sig_tvalid: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TVALID";
-    ATTRIBUTE X_INTERFACE_INFO of m_sig_tready: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TREADY";
+--    ATTRIBUTE X_INTERFACE_INFO : STRING;
+--    ATTRIBUTE X_INTERFACE_INFO of m_sig_tdata: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TDATA";
+--    ATTRIBUTE X_INTERFACE_INFO of m_sig_tvalid: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TVALID";
+--    ATTRIBUTE X_INTERFACE_INFO of m_sig_tready: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TREADY";
 
     ----------------------------------------------------------------------
     -- Components declaration
@@ -167,7 +167,7 @@ begin
         mod_sig     => mod_sig
     );
 
-    m_sig_tdata <= mod_sig(15 downto 2);
+    m_sig_tdata <= mod_sig(15 downto 0);
 
 end Behavioral;
 
