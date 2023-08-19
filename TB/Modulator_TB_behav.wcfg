@@ -10,13 +10,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,979.648 ns"></ZoomEndTime>
-      <Cursor1Time time="750.060 ns"></Cursor1Time>
+      <ZoomStartTime time="2,051.753 ns"></ZoomStartTime>
+      <ZoomEndTime time="2,442.254 ns"></ZoomEndTime>
+      <Cursor1Time time="2,233.612 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="193"></NameColumnWidth>
-      <ValueColumnWidth column_width="77"></ValueColumnWidth>
+      <NameColumnWidth column_width="150"></NameColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="19" />
    <wvobject type="divider" fp_name="divider27">
@@ -62,10 +62,18 @@
    <wvobject fp_name="/Modulator_TB/Modulator_inst/Mapper_inst/I" type="array">
       <obj_property name="ElementShortName">I[15:0]</obj_property>
       <obj_property name="ObjectShortName">I[15:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
    <wvobject fp_name="/Modulator_TB/Modulator_inst/Mapper_inst/Q" type="array">
       <obj_property name="ElementShortName">Q[15:0]</obj_property>
       <obj_property name="ObjectShortName">Q[15:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider20">
       <obj_property name="label">DDS</obj_property>
@@ -80,12 +88,12 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_fractionWidth">15</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
       <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
-      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
-      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">-1.500000</obj_property>
+      <obj_property name="AnalogYRRangeMax">1.500000</obj_property>
       <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
       <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
       <obj_property name="AnalogHorizLine">0.000000</obj_property>
@@ -160,13 +168,13 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_fractionWidth">15</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
       <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
       <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
-      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
-      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">-1.500000</obj_property>
+      <obj_property name="AnalogYRRangeMax">1.500000</obj_property>
       <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
       <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
       <obj_property name="AnalogHorizLine">0.000000</obj_property>
@@ -239,36 +247,36 @@
       <obj_property name="label">Mixer</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/Modulator_TB/Modulator_inst/IQ_Mixer_inst/Isin" type="array">
-      <obj_property name="ElementShortName">Isin[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Isin[31:0]</obj_property>
+   <wvobject fp_name="/Modulator_TB/Modulator_inst/IQ_Mixer_inst/Isin_Qcos" type="array">
+      <obj_property name="ElementShortName">Isin_Qcos[32:0]</obj_property>
+      <obj_property name="ObjectShortName">Isin_Qcos[32:0]</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">28</obj_property>
+      <obj_property name="radix_fractionWidth">29</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
       <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
-      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
-      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">-1.500000</obj_property>
+      <obj_property name="AnalogYRRangeMax">1.500000</obj_property>
       <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
       <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
       <obj_property name="AnalogHorizLine">0.000000</obj_property>
       <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
    </wvobject>
-   <wvobject fp_name="/Modulator_TB/Modulator_inst/IQ_Mixer_inst/Isin_Qcos" type="array">
-      <obj_property name="ElementShortName">Isin_Qcos[15:0]</obj_property>
-      <obj_property name="ObjectShortName">Isin_Qcos[15:0]</obj_property>
+   <wvobject fp_name="/Modulator_TB/Modulator_inst/m_sig_tdata" type="array">
+      <obj_property name="ElementShortName">m_sig_tdata[13:0]</obj_property>
+      <obj_property name="ObjectShortName">m_sig_tdata[13:0]</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_fractionWidth">12</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
       <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
-      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
-      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">-1.500000</obj_property>
+      <obj_property name="AnalogYRRangeMax">1.500000</obj_property>
       <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
       <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
       <obj_property name="AnalogHorizLine">0.000000</obj_property>
-      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
    </wvobject>
 </wave_config>

@@ -22,15 +22,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity IQ_Mixer is
 port(
     -- Input clock signal
@@ -71,13 +62,13 @@ architecture Behavioral of IQ_Mixer is
         A   : in  std_logic_vector(15 downto 0);
         B   : in  std_logic_vector(15 downto 0);
         C   : in  std_logic_vector(31 downto 0);
-        P   : out std_logic_vector(15 downto 0)
+        P   : out std_logic_vector(32 downto 0)
     );
     end component Mixer_Q_cos_add;
 
     -- DSPs outputs
     signal Isin         : std_logic_vector(31 downto 0) := (others => '0');
-    signal Isin_Qcos    : std_logic_vector(15 downto 0) := (others => '0');
+    signal Isin_Qcos    : std_logic_vector(32 downto 0) := (others => '0');
 
     -- Temporary output signal
     signal mod_sig_tmp  : std_logic_vector(15 downto 0) := (others => '0');
@@ -121,7 +112,10 @@ begin
                 -- AXI-stream slave but for the DDS, the valid is always
                 -- set when it outputs something so we can use it like this
                 if(carriers_v = '1') then
-                    mod_sig_tmp <= Isin_Qcos;
+                    -- Extract the sign bit and remove the two MSBs for
+                    -- precision (those bits were added by the DSP but they
+                    -- will never be used in our case)
+                    mod_sig_tmp <= Isin_Qcos(32) & Isin_Qcos(29 downto 15);
                 else
                     mod_sig_tmp <= (others => '0');
                 end if;

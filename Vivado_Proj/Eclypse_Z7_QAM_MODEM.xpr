@@ -58,20 +58,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="eclypse-z7"/>
-    <Option Name="WTXSimLaunchSim" Val="17"/>
+    <Option Name="WTXSimLaunchSim" Val="28"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="9"/>
-    <Option Name="WTModelSimExportSim" Val="9"/>
-    <Option Name="WTQuestaExportSim" Val="9"/>
+    <Option Name="WTXSimExportSim" Val="14"/>
+    <Option Name="WTModelSimExportSim" Val="14"/>
+    <Option Name="WTQuestaExportSim" Val="14"/>
     <Option Name="WTIesExportSim" Val="0"/>
-    <Option Name="WTVcsExportSim" Val="8"/>
-    <Option Name="WTRivieraExportSim" Val="8"/>
-    <Option Name="WTActivehdlExportSim" Val="8"/>
+    <Option Name="WTVcsExportSim" Val="13"/>
+    <Option Name="WTRivieraExportSim" Val="13"/>
+    <Option Name="WTActivehdlExportSim" Val="13"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -125,17 +125,17 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_clk_wiz_0_0/Top_Design_clk_wiz_0_0.xci">
-          <Proxy FileSetName="Top_Design_clk_wiz_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_proc_sys_reset_0_0/Top_Design_proc_sys_reset_0_0.xci">
-          <Proxy FileSetName="Top_Design_proc_sys_reset_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_ZmodAWGController_0_0/Top_Design_ZmodAWGController_0_0.xci">
           <Proxy FileSetName="Top_Design_ZmodAWGController_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_vio_0_0/Top_Design_vio_0_0.xci">
           <Proxy FileSetName="Top_Design_vio_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_proc_sys_reset_0_0/Top_Design_proc_sys_reset_0_0.xci">
+          <Proxy FileSetName="Top_Design_proc_sys_reset_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Top_Design.bd" FileRelPathName="ip/Top_Design_clk_wiz_0_0/Top_Design_clk_wiz_0_0.xci">
+          <Proxy FileSetName="Top_Design_clk_wiz_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <Config>
@@ -334,9 +334,7 @@
     </Run>
     <Run Id="Mixer_Q_cos_add_synth_1" Type="Ft3:Synth" SrcSet="Mixer_Q_cos_add" Part="xc7z020clg484-1" ConstrsSet="Mixer_Q_cos_add" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/Mixer_Q_cos_add_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/Mixer_Q_cos_add_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2021">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2021"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -346,9 +344,7 @@
     </Run>
     <Run Id="Mixer_I_sin_synth_1" Type="Ft3:Synth" SrcSet="Mixer_I_sin" Part="xc7z020clg484-1" ConstrsSet="Mixer_I_sin" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/Mixer_I_sin_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/Mixer_I_sin_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2021">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2021"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -460,9 +456,7 @@
     </Run>
     <Run Id="Mixer_Q_cos_add_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="Mixer_Q_cos_add" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="Mixer_Q_cos_add_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/Mixer_Q_cos_add_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -479,9 +473,7 @@
     </Run>
     <Run Id="Mixer_I_sin_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="Mixer_I_sin" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="Mixer_I_sin_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/Mixer_I_sin_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
