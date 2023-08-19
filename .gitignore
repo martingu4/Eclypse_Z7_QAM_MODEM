@@ -5,8 +5,7 @@
 # Ignore all files from block designs except .bd and .xci
 /Sources/bd/*/*.*
 !/Sources/bd/*/*.bd
-/Sources/bd/*/ip/*/*
-!/Sources/bd/*/ip/*/*.xci
+/Sources/bd/*/ip/
 /Sources/bd/*/ui/
 /Sources/bd/*/synth/
 /Sources/bd/*/sim/

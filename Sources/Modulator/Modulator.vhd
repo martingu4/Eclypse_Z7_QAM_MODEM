@@ -30,6 +30,7 @@ entity Modulator is
         
         -- Output modulated signal
         m_sig_tdata     : out std_logic_vector(13 downto 0);
+        -- TODO : implement the valid and ready logic if needed
         m_sig_tvalid    : out std_logic;
         m_sig_tready    : in std_logic
     );
