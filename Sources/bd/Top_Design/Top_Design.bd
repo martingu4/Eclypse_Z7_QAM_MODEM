@@ -7,8 +7,7 @@
       "name": "Top_Design",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2021.2",
-      "validated": "true"
+      "tool_version": "2021.2"
     },
     "design_tree": {
       "ZmodAWGController_0": "",
@@ -18,31 +17,16 @@
       "Modulator_0": "",
       "AWG_Data_Feeder_0": "",
       "proc_sys_reset_1": "",
-      "xlconstant_0": ""
+      "xlconstant_0": "",
+      "xlconstant_1": ""
     },
     "ports": {
       "clk_in1": {
         "type": "clk",
         "direction": "I",
         "parameters": {
-          "CLK_DOMAIN": {
-            "value": "Top_Design_clk_in1",
-            "value_src": "default"
-          },
           "FREQ_HZ": {
             "value": "100000000"
-          },
-          "FREQ_TOLERANCE_HZ": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "PHASE": {
-            "value": "0.0",
-            "value_src": "default"
           }
         }
       }
@@ -345,6 +329,12 @@
             "value": "16"
           }
         }
+      },
+      "xlconstant_1": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "Top_Design_xlconstant_1_0",
+        "xci_path": "ip\\Top_Design_xlconstant_1_0\\Top_Design_xlconstant_1_0.xci",
+        "inst_hier_path": "xlconstant_1"
       }
     },
     "interface_nets": {
@@ -421,6 +411,12 @@
         "ports": [
           "xlconstant_0/dout",
           "AWG_Data_Feeder_0/data_2"
+        ]
+      },
+      "xlconstant_1_dout": {
+        "ports": [
+          "xlconstant_1/dout",
+          "ZmodAWGController_0/sDAC_EnIn"
         ]
       }
     }
