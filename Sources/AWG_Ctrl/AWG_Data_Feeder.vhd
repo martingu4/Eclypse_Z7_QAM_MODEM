@@ -1,14 +1,14 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: N/A
+-- Engineer: Martin G.
 -- 
 -- Create Date: 19.08.2023 10:08:55
 -- Design Name: 
 -- Module Name: AWG_Data_Feeder - Behavioral
 -- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
+-- Target Devices: Eclypse Z7
+-- Tool Versions: 2021.2
+-- Description: AWG Controller data feeder
 -- 
 -- Dependencies: 
 -- 
