@@ -36,16 +36,31 @@ architecture Behavioral of Modulator_TB is
 
     -- DUT component(s)
     component Modulator is
-    Port (
+    generic(
+        PRESCALE_FACTOR : integer
+    );
+    port(
         clk             : in std_logic;
         resetn          : in std_logic;
-        m_sig_tdata     : out std_logic_vector(13 downto 0);
-        m_sig_tvalid    : out std_logic;
-        m_sig_tready    : in std_logic
+        m_sig_tdata     : out std_logic_vector(15 downto 0)
     );
     end component Modulator;
 
-    signal mod_sig : std_logic_vector(13 downto 0);
+    component AWG_Data_Feeder is
+    port(
+        clk         : in  std_logic;
+        resetn      : in  std_logic;
+        data_1      : in  std_logic_vector(15 downto 0);
+        data_2      : in  std_logic_vector(15 downto 0);
+        feed_valid  : out std_logic;
+        feed_ready  : in  std_logic;
+        feed_data   : out std_logic_vector(31 downto 0)
+    );
+    end component AWG_Data_Feeder;
+
+    signal mod_sig      : std_logic_vector(15 downto 0);
+    signal AWG_feed_d   : std_logic_vector(31 downto 0);
+    signal AWG_feed_v   : std_logic;
 
 begin
 
@@ -55,12 +70,24 @@ begin
 
     -- DUT instantiation
     Modulator_inst : Modulator
+    generic map(
+        PRESCALE_FACTOR => 12000
+    )
     port map(
         clk             => clk,
         resetn          => resetn,
-        m_sig_tdata     => mod_sig,
-        m_sig_tvalid    => open,
-        m_sig_tready    => '0'
+        m_sig_tdata     => mod_sig
+    );
+
+    AWG_Data_Feeder_inst : AWG_Data_Feeder
+    port map(
+        clk             => clk,
+        resetn          => resetn,
+        data_1          => mod_sig,
+        data_2          => (others => '0'),
+        feed_valid      => AWG_feed_v,
+        feed_ready      => '1',
+        feed_data       => AWG_feed_d
     );
 
 end Behavioral;

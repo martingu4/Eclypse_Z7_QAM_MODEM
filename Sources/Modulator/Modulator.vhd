@@ -23,6 +23,9 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity Modulator is
+    Generic (
+        PRESCALE_FACTOR : integer := 12000
+    );
     Port (
         -- Input clock and reset signals
         clk             : in std_logic;
@@ -119,7 +122,7 @@ begin
     -- Symbol rate generator module instantiation
     SymRateGen_inst : SymRateGen
     generic map(
-        PRESCALE_FACTOR => 100
+        PRESCALE_FACTOR => PRESCALE_FACTOR
     )
     port map(
         clk         => clk,

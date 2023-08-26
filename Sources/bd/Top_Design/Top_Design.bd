@@ -14,12 +14,12 @@
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
       "vio_0": "",
-      "Modulator_0": "",
       "proc_sys_reset_1": "",
       "xlconstant_0": "",
       "processing_system7_0": "",
       "AWG_En_0": "",
-      "AWG_Data_Feeder_0": ""
+      "AWG_Data_Feeder_0": "",
+      "Modulator_0": ""
     },
     "interface_ports": {
       "FIXED_IO": {
@@ -177,56 +177,6 @@
         "parameters": {
           "C_NUM_PROBE_IN": {
             "value": "0"
-          }
-        }
-      },
-      "Modulator_0": {
-        "vlnv": "xilinx.com:module_ref:Modulator:1.0",
-        "xci_name": "Top_Design_Modulator_0_0",
-        "xci_path": "ip\\Top_Design_Modulator_0_0\\Top_Design_Modulator_0_0.xci",
-        "inst_hier_path": "Modulator_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "Modulator",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "resetn",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "120000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "resetn": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_LOW",
-                "value_src": "constant"
-              }
-            }
-          },
-          "m_sig_tdata": {
-            "direction": "O",
-            "left": "15",
-            "right": "0"
           }
         }
       },
@@ -1290,6 +1240,44 @@
             "right": "0"
           }
         }
+      },
+      "Modulator_0": {
+        "vlnv": "xilinx.com:module_ref:Modulator:1.0",
+        "xci_name": "Top_Design_Modulator_0_0",
+        "xci_path": "ip\\Top_Design_Modulator_0_0\\Top_Design_Modulator_0_0.xci",
+        "inst_hier_path": "Modulator_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "Modulator",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "m_sig_tdata": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -1416,9 +1404,9 @@
         "ports": [
           "clk_wiz_0/clk120",
           "ZmodAWGController_0/DAC_InIO_Clk",
-          "Modulator_0/clk",
           "proc_sys_reset_1/slowest_sync_clk",
-          "AWG_Data_Feeder_0/clk"
+          "AWG_Data_Feeder_0/clk",
+          "Modulator_0/clk"
         ]
       },
       "clk_wiz_0_clk120_shifted": {
@@ -1444,8 +1432,8 @@
       "proc_sys_reset_1_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_1/peripheral_aresetn",
-          "Modulator_0/resetn",
-          "AWG_Data_Feeder_0/resetn"
+          "AWG_Data_Feeder_0/resetn",
+          "Modulator_0/resetn"
         ]
       },
       "processing_system7_0_FCLK_CLK0": {
