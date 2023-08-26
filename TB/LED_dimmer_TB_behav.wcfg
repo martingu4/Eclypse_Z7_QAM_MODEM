@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="LED_dimmer_TB_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="LED_dimmer_TB" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,268.801 ns"></ZoomEndTime>
+      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="150"></NameColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="12" />
+   <wvobject type="divider" fp_name="divider371">
+      <obj_property name="label">Clock and reset</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/resetn" type="logic">
+      <obj_property name="ElementShortName">resetn</obj_property>
+      <obj_property name="ObjectShortName">resetn</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider372">
+      <obj_property name="label">LEDs input values</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/led0" type="array">
+      <obj_property name="ElementShortName">led0[2:0]</obj_property>
+      <obj_property name="ObjectShortName">led0[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/led1" type="array">
+      <obj_property name="ElementShortName">led1[2:0]</obj_property>
+      <obj_property name="ObjectShortName">led1[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider379">
+      <obj_property name="label">Control signals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/LED_dimmer_int/currState" type="logic">
+      <obj_property name="ElementShortName">currState</obj_property>
+      <obj_property name="ObjectShortName">currState</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/LED_dimmer_int/countVal" type="array">
+      <obj_property name="ElementShortName">countVal[15:0]</obj_property>
+      <obj_property name="ObjectShortName">countVal[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider378">
+      <obj_property name="label">LEDs output dimmed</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/LED_dimmer_int/led0_out" type="array">
+      <obj_property name="ElementShortName">led0_out[2:0]</obj_property>
+      <obj_property name="ObjectShortName">led0_out[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/LED_dimmer_TB/LED_dimmer_int/led1_out" type="array">
+      <obj_property name="ElementShortName">led1_out[2:0]</obj_property>
+      <obj_property name="ObjectShortName">led1_out[2:0]</obj_property>
+   </wvobject>
+</wave_config>

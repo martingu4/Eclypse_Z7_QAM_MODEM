@@ -58,9 +58,22 @@ architecture Behavioral of Modulator_TB is
     );
     end component AWG_Data_Feeder;
 
+    component AWG_En is
+    port(
+        clk         : in std_logic;
+        resetn      : in std_logic;
+        btn         : in std_logic;
+        sDAC_EnIn   : out std_logic;
+        led         : out std_logic_vector(2 downto 0)
+    );
+    end component AWG_En;
+
     signal mod_sig      : std_logic_vector(15 downto 0);
     signal AWG_feed_d   : std_logic_vector(31 downto 0);
     signal AWG_feed_v   : std_logic;
+    signal btnIn        : std_logic := '0';
+    signal sDAC_EnIn    : std_logic;
+    signal led          : std_logic_vector(2 downto 0);
 
 begin
 
@@ -88,6 +101,42 @@ begin
         feed_valid      => AWG_feed_v,
         feed_ready      => '1',
         feed_data       => AWG_feed_d
+    );
+
+    -- Bounced button input
+    process
+    begin
+
+        btnIn   <= '0';
+        wait for 12*PERIOD;
+        btnIn   <= '1';
+        wait for 1*PERIOD;
+        btnIn   <= '1';
+        wait for 2*PERIOD;
+        btnIn   <= '0';
+        wait for 1*PERIOD;
+        btnIn   <= '1';
+        wait for 1*PERIOD;
+        btnIn   <= '0';
+        wait for 3*PERIOD;
+        btnIn   <= '1';
+        wait for 1*PERIOD;
+        btnIn   <= '0';
+        wait for 2*PERIOD;
+        btnIn   <= '1';
+        wait for 5*PERIOD;
+        btnIn   <= '0';
+        wait for 100*PERIOD;
+
+    end process;
+
+    AWG_En_inst : AWG_En
+    port map(
+        clk             => clk,
+        resetn          => resetn,
+        btn             => btnIn,
+        sDAC_EnIn       => sDAC_EnIn,
+        led             => led
     );
 
 end Behavioral;

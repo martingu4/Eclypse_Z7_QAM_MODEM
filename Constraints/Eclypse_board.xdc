@@ -2,7 +2,7 @@
 # Buttons
 #########################################################
 set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS33 } [get_ports { btn0 }]; #IO_L11P_T1_SRCC Sch=btn[0]
-#set_property -dict { PACKAGE_PIN C18   IOSTANDARD LVCMOS33 } [get_ports { btn[1] }]; #IO_L11N_T1_SRCC Sch=btn[1]
+set_property -dict { PACKAGE_PIN C18   IOSTANDARD LVCMOS33 } [get_ports { btn1 }]; #IO_L11N_T1_SRCC Sch=btn[1]
 
 #########################################################
 # RGB LEDs
@@ -10,43 +10,43 @@ set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS33 } [get_ports { btn0 }
 set_property -dict { PACKAGE_PIN B17   IOSTANDARD LVCMOS33 } [get_ports { led0[2] }]; #IO_L8N_T1_AD10N Sch=led0_r
 set_property -dict { PACKAGE_PIN B16   IOSTANDARD LVCMOS33 } [get_ports { led0[1] }]; #IO_L8P_T1_AD10P Sch=led0_g
 set_property -dict { PACKAGE_PIN A17   IOSTANDARD LVCMOS33 } [get_ports { led0[0] }]; #IO_L9N_T1_DQS_AD3N Sch=led0_b
-#set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33 } [get_ports { led1_b }]; #IO_L9P_T1_DQS_AD3P Sch=led1_b
-#set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { led1_g }]; #IO_L10P_T1_AD11P Sch=led1_g
-#set_property -dict { PACKAGE_PIN A19   IOSTANDARD LVCMOS33 } [get_ports { led1_r }]; #IO_L10N_T1_AD11N Sch=led1_r
+set_property -dict { PACKAGE_PIN A19   IOSTANDARD LVCMOS33 } [get_ports { led1[2] }]; #IO_L10N_T1_AD11N Sch=led1_r
+set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { led1[1] }]; #IO_L10P_T1_AD11P Sch=led1_g
+set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33 } [get_ports { led1[0] }]; #IO_L9P_T1_DQS_AD3P Sch=led1_b
 
 #########################################################
 # Syzygy Port A (ZMOD AWG module)
 #########################################################
 # AWG Clocks
-set_property -dict { PACKAGE_PIN N19  } [get_ports { ZmodDAC_ClkIn }]; #IO_L14P_T2_SRCC Sch=syzygy_a_c2p_clk_p
-set_property -dict { PACKAGE_PIN M19  } [get_ports { ZmodDAC_ClkIO }]; #IO_L13P_T2_MRCC Sch=syzygy_a_p2c_clk_p
+set_property -dict { PACKAGE_PIN N19  IOSTANDARD LVCMOS18 } [get_ports { ZmodDAC_ClkIn }]; #IO_L14P_T2_SRCC Sch=syzygy_a_c2p_clk_p
+set_property -dict { PACKAGE_PIN M19  IOSTANDARD LVCMOS18 } [get_ports { ZmodDAC_ClkIO }]; #IO_L13P_T2_MRCC Sch=syzygy_a_p2c_clk_p
 
 # AWG Data
-set_property -dict { PACKAGE_PIN K19  } [get_ports { sZmodDAC_Data[0]  }]; #IO_L11P_T1_SRCC Sch=syzygy_a_s[19]
-set_property -dict { PACKAGE_PIN L18  } [get_ports { sZmodDAC_Data[1]  }]; #IO_L12P_T1_MRCC Sch=syzygy_a_s[18]
-set_property -dict { PACKAGE_PIN K18  } [get_ports { sZmodDAC_Data[2]  }]; #IO_L7N_T1 Sch=syzygy_a_d_n[6]
-set_property -dict { PACKAGE_PIN L22  } [get_ports { sZmodDAC_Data[3]  }]; #IO_L10N_T1 Sch=syzygy_a_s[20]
-set_property -dict { PACKAGE_PIN L19  } [get_ports { sZmodDAC_Data[4]  }]; #IO_L12N_T1_MRCC Sch=syzygy_a_s[16]
-set_property -dict { PACKAGE_PIN K20  } [get_ports { sZmodDAC_Data[5]  }]; #IO_L11N_T1_SRCC Sch=syzygy_a_s[17]
-set_property -dict { PACKAGE_PIN K21  } [get_ports { sZmodDAC_Data[6]  }]; #IO_L9N_T1_DQS Sch=syzygy_a_d_n[7]
-set_property -dict { PACKAGE_PIN J20  } [get_ports { sZmodDAC_Data[7]  }]; #IO_L9P_T1_DQS Sch=syzygy_a_d_p[7]
-set_property -dict { PACKAGE_PIN P15  } [get_ports { sZmodDAC_Data[8]  }]; #IO_L19N_T3_VREF Sch=syzygy_a_d_n[5]
-set_property -dict { PACKAGE_PIN N15  } [get_ports { sZmodDAC_Data[9]  }]; #IO_L19P_T3 Sch=syzygy_a_d_p[5]
-set_property -dict { PACKAGE_PIN P18  } [get_ports { sZmodDAC_Data[10] }]; #IO_L20N_T3 Sch=syzygy_a_d_n[3]
-set_property -dict { PACKAGE_PIN P17  } [get_ports { sZmodDAC_Data[11] }]; #IO_L20P_T3 Sch=syzygy_a_d_p[3]
-set_property -dict { PACKAGE_PIN T19  } [get_ports { sZmodDAC_Data[12] }]; #IO_L22N_T3 Sch=syzygy_a_d_n[1]
-set_property -dict { PACKAGE_PIN R19  } [get_ports { sZmodDAC_Data[13] }]; #IO_L22P_T3 Sch=syzygy_a_d_p[1]
+set_property -dict { PACKAGE_PIN K19  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[0]  }]; #IO_L11P_T1_SRCC Sch=syzygy_a_s[19]
+set_property -dict { PACKAGE_PIN L18  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[1]  }]; #IO_L12P_T1_MRCC Sch=syzygy_a_s[18]
+set_property -dict { PACKAGE_PIN K18  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[2]  }]; #IO_L7N_T1 Sch=syzygy_a_d_n[6]
+set_property -dict { PACKAGE_PIN L22  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[3]  }]; #IO_L10N_T1 Sch=syzygy_a_s[20]
+set_property -dict { PACKAGE_PIN L19  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[4]  }]; #IO_L12N_T1_MRCC Sch=syzygy_a_s[16]
+set_property -dict { PACKAGE_PIN K20  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[5]  }]; #IO_L11N_T1_SRCC Sch=syzygy_a_s[17]
+set_property -dict { PACKAGE_PIN K21  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[6]  }]; #IO_L9N_T1_DQS Sch=syzygy_a_d_n[7]
+set_property -dict { PACKAGE_PIN J20  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[7]  }]; #IO_L9P_T1_DQS Sch=syzygy_a_d_p[7]
+set_property -dict { PACKAGE_PIN P15  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[8]  }]; #IO_L19N_T3_VREF Sch=syzygy_a_d_n[5]
+set_property -dict { PACKAGE_PIN N15  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[9]  }]; #IO_L19P_T3 Sch=syzygy_a_d_p[5]
+set_property -dict { PACKAGE_PIN P18  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[10] }]; #IO_L20N_T3 Sch=syzygy_a_d_n[3]
+set_property -dict { PACKAGE_PIN P17  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[11] }]; #IO_L20P_T3 Sch=syzygy_a_d_p[3]
+set_property -dict { PACKAGE_PIN T19  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[12] }]; #IO_L22N_T3 Sch=syzygy_a_d_n[1]
+set_property -dict { PACKAGE_PIN R19  IOSTANDARD LVCMOS18 } [get_ports { dZmodDAC_Data[13] }]; #IO_L22P_T3 Sch=syzygy_a_d_p[1]
 
 # AWG control signals
-set_property -dict { PACKAGE_PIN J18  } [get_ports { sZmodDAC_EnOut }]; #IO_L7P_T1 Sch=syzygy_a_d_p[6]
-set_property -dict { PACKAGE_PIN T16  } [get_ports { sZmodDAC_SetFS1 }]; #IO_L21P_T3_DQS Sch=syzygy_a_d_p[0]
-set_property -dict { PACKAGE_PIN T17  } [get_ports { sZmodDAC_SetFS2 }]; #IO_L21N_T3_DQS Sch=syzygy_a_d_n[0]
-set_property -dict { PACKAGE_PIN R18  } [get_ports { sZmodDAC_Reset }]; #IO_L23P_T3 Sch=syzygy_a_d_p[2]
+set_property -dict { PACKAGE_PIN J18  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_EnOut }];  #IO_L7P_T1 Sch=syzygy_a_d_p[6]
+set_property -dict { PACKAGE_PIN T16  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_SetFS1 }]; #IO_L21P_T3_DQS Sch=syzygy_a_d_p[0]
+set_property -dict { PACKAGE_PIN T17  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_SetFS2 }]; #IO_L21N_T3_DQS Sch=syzygy_a_d_n[0]
+set_property -dict { PACKAGE_PIN R18  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_Reset }];  #IO_L23P_T3 Sch=syzygy_a_d_p[2]
 
 # AWG SPI bus
-set_property -dict { PACKAGE_PIN R16  } [get_ports { sZmodDAC_CS }]; #IO_L24N_T3 Sch=syzygy_a_d_n[4]
-set_property -dict { PACKAGE_PIN T18  } [get_ports { sZmodDAC_SCLK }]; #IO_L23N_T3 Sch=syzygy_a_d_n[2]
-set_property -dict { PACKAGE_PIN P16  } [get_ports { sZmodDAC_SDIO }]; #IO_L24P_T3 Sch=syzygy_a_d_p[4]
+set_property -dict { PACKAGE_PIN R16  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_CS }]; #IO_L24N_T3 Sch=syzygy_a_d_n[4]
+set_property -dict { PACKAGE_PIN T18  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_SCLK }]; #IO_L23N_T3 Sch=syzygy_a_d_n[2]
+set_property -dict { PACKAGE_PIN P16  IOSTANDARD LVCMOS18 } [get_ports { sZmodDAC_SDIO }]; #IO_L24P_T3 Sch=syzygy_a_d_p[4]
 
 
 #########################################################
