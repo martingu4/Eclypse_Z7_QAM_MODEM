@@ -45,8 +45,29 @@ architecture Behavioral of AWG_En is
     signal AWG_en_tmp   : std_logic := '0';
     signal led_tmp      : std_logic_vector(2 downto 0) := "000";
 
+    -- Binary counter used for button deboucing
+    component debounce_counter is
+    port(
+        CLK     : in std_logic;
+        SCLR    : in std_logic;
+        Q       : out std_logic_vector(25 downto 0)
+    );
+    end component debounce_counter;
+
+    signal countVal     : std_logic_vector(25 downto 0) := (others => '0');
+    signal countClr     : std_logic := '0';
+
 begin
 
+    -- Binary counter instantiation
+    debounce_counter_inst : debounce_counter
+    port map(
+        CLK     => clk,
+        SCLR    => countClr,
+        Q       => countVal
+    );
+
+    -- Enable management and button deboucning process
     process(clk)
     begin
         if(rising_edge(clk)) then
@@ -54,6 +75,7 @@ begin
             if(resetn = '0') then
                 AWG_en_tmp  <= '0';
                 led_tmp     <= "000";
+                countClr    <= '1';
 
             else
                 -- Check if button is pressed and timer reached 50.000.000
@@ -67,9 +89,13 @@ begin
                         AWG_en_tmp  <= '1';
                         led_tmp     <= "010"; -- Green LED
                     end if;
+
+                    -- Reset the counter
+                    countClr        <= '1';
                 else
                     AWG_en_tmp      <= AWG_en_tmp;
                     led_tmp         <= led_tmp;
+                    countClr        <= '0';
                 end if;
             end if;
         end if;

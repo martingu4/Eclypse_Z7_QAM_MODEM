@@ -71,7 +71,7 @@ begin
                 feed_valid_tmp <= feed_ready;
             
                 if(feed_ready = '1') then
-                    feed_data_tmp <= data_1 & data_2;
+                    feed_data_tmp <= data_1(15 downto 2) & "00" & data_2(15 downto 2) & "00";
                 else
                     feed_data_tmp <= (others => '0');
                 end if;
