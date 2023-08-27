@@ -32,10 +32,13 @@ entity Modulator is
         resetn          : in std_logic;
         
         -- Output modulated signal
-        m_sig_tdata     : out std_logic_vector(15 downto 0)
+        m_sig_tdata     : out std_logic_vector(15 downto 0);
         -- TODO : implement the valid and ready logic if needed
 --        m_sig_tvalid    : out std_logic;
 --        m_sig_tready    : in std_logic
+
+        -- Signal that toggles each time a new symbol is output
+        sym_ce_hold     : out std_logic
     );
 end Modulator;
 
@@ -116,6 +119,7 @@ architecture Behavioral of Modulator is
     signal carriers_valid   : std_logic                     := '0';
     signal carriers_data    : std_logic_vector(31 downto 0) := (others => '0');
     signal mod_sig          : std_logic_vector(15 downto 0) := (others => '0');
+    signal sym_ce_hold_tmp  : std_logic                     := '0';
     
 begin
 
@@ -171,6 +175,33 @@ begin
     );
 
     m_sig_tdata <= mod_sig(15 downto 0);
+
+
+    -- This process generates a signal that toggles each
+    -- time a new symbol must be output
+    -- (it will be a few clock cycles before the symbol
+    -- changes on the modulated signal because of the
+    -- mixer's latency)
+    process(clk)
+    begin
+        if(rising_edge(clk)) then
+            -- Synchronous, active-low reset
+            if(resetn = '0') then
+                sym_ce_hold_tmp         <= '0';
+
+            else
+                if(sym_ce = '1') then
+                    if(sym_ce_hold_tmp = '1') then
+                        sym_ce_hold_tmp <= '0';
+                    else
+                        sym_ce_hold_tmp <= '1';
+                    end if;
+                end if;
+            end if;
+        end if;
+    end process;
+
+    sym_ce_hold <= sym_ce_hold_tmp;
 
 end Behavioral;
 

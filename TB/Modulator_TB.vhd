@@ -42,7 +42,8 @@ architecture Behavioral of Modulator_TB is
     port(
         clk             : in std_logic;
         resetn          : in std_logic;
-        m_sig_tdata     : out std_logic_vector(15 downto 0)
+        m_sig_tdata     : out std_logic_vector(15 downto 0);
+        sym_ce_hold     : out std_logic
     );
     end component Modulator;
 
@@ -89,7 +90,8 @@ begin
     port map(
         clk             => clk,
         resetn          => resetn,
-        m_sig_tdata     => mod_sig
+        m_sig_tdata     => mod_sig,
+        sym_ce_hold     => open
     );
 
     AWG_Data_Feeder_inst : AWG_Data_Feeder
