@@ -37,7 +37,7 @@ end bin_to_AWGdata;
 architecture Behavioral of bin_to_AWGdata is
 
     -- Temporary output signal
-    AWGdata_tmp     : std_logic_vector(15 downto 0) := (others => '0');
+    signal AWGdata_tmp  : std_logic_vector(15 downto 0) := (others => '0');
 
 begin
 
@@ -57,5 +57,7 @@ begin
             end if;
         end if;
     end process;
+    
+    AWGdata <= AWGdata_tmp;
 
 end Behavioral;

@@ -62,7 +62,7 @@ begin
             else
                 -- Symbol clock enable generator
                 if(presc_cnt = PRESCALE_FACTOR-1) then
-                    presc_cnt <= 0;
+                    presc_cnt <= 1;
                     sym_ce_tmp <= '1';
                 else
                     presc_cnt <= presc_cnt + 1;
