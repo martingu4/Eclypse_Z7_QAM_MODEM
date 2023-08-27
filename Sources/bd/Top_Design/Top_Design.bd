@@ -19,11 +19,9 @@
       "xlconstant_0": "",
       "AWG_Data_Feeder_0": "",
       "xlconcat_0": "",
-      "xlconstant_1": "",
-      "util_vector_logic_0": "",
       "AWG_En_0": "",
-      "Modulator_0": "",
-      "LED_dimmer_0": ""
+      "LED_dimmer_0": "",
+      "Modulator_0": ""
     },
     "ports": {
       "sZmodDAC_CS": {
@@ -441,31 +439,6 @@
           }
         }
       },
-      "xlconstant_1": {
-        "vlnv": "xilinx.com:ip:xlconstant:1.1",
-        "xci_name": "Top_Design_xlconstant_1_1",
-        "xci_path": "ip\\Top_Design_xlconstant_1_1\\Top_Design_xlconstant_1_1.xci",
-        "inst_hier_path": "xlconstant_1",
-        "parameters": {
-          "CONST_VAL": {
-            "value": "0"
-          }
-        }
-      },
-      "util_vector_logic_0": {
-        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
-        "xci_name": "Top_Design_util_vector_logic_0_0",
-        "xci_path": "ip\\Top_Design_util_vector_logic_0_0\\Top_Design_util_vector_logic_0_0.xci",
-        "inst_hier_path": "util_vector_logic_0",
-        "parameters": {
-          "C_OPERATION": {
-            "value": "not"
-          },
-          "C_SIZE": {
-            "value": "1"
-          }
-        }
-      },
       "AWG_En_0": {
         "vlnv": "xilinx.com:module_ref:AWG_En:1.0",
         "xci_name": "Top_Design_AWG_En_0_0",
@@ -518,56 +491,6 @@
           "led": {
             "direction": "O",
             "left": "2",
-            "right": "0"
-          }
-        }
-      },
-      "Modulator_0": {
-        "vlnv": "xilinx.com:module_ref:Modulator:1.0",
-        "xci_name": "Top_Design_Modulator_0_0",
-        "xci_path": "ip\\Top_Design_Modulator_0_0\\Top_Design_Modulator_0_0.xci",
-        "inst_hier_path": "Modulator_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "Modulator",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "resetn",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "120000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "resetn": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_LOW",
-                "value_src": "constant"
-              }
-            }
-          },
-          "m_sig_tdata": {
-            "direction": "O",
-            "left": "15",
             "right": "0"
           }
         }
@@ -642,6 +565,56 @@
             "right": "0"
           }
         }
+      },
+      "Modulator_0": {
+        "vlnv": "xilinx.com:module_ref:Modulator:1.0",
+        "xci_name": "Top_Design_Modulator_0_0",
+        "xci_path": "ip\\Top_Design_Modulator_0_0\\Top_Design_Modulator_0_0.xci",
+        "inst_hier_path": "Modulator_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "Modulator",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "resetn",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "120000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "resetn": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_LOW",
+                "value_src": "constant"
+              }
+            }
+          },
+          "m_sig_tdata": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -662,7 +635,7 @@
       "AWG_En_0_sDAC_EnIn": {
         "ports": [
           "AWG_En_0/sDAC_EnIn",
-          "xlconcat_0/In0"
+          "ZmodAWGController_0/sDAC_EnIn"
         ]
       },
       "LED_dimmer_0_led0_out": {
@@ -705,6 +678,18 @@
         "ports": [
           "ZmodAWGController_0/dZmodDAC_Data",
           "dZmodDAC_Data"
+        ]
+      },
+      "ZmodAWGController_0_sConfigError": {
+        "ports": [
+          "ZmodAWGController_0/sConfigError",
+          "xlconcat_0/In2"
+        ]
+      },
+      "ZmodAWGController_0_sInitDoneDAC": {
+        "ports": [
+          "ZmodAWGController_0/sInitDoneDAC",
+          "xlconcat_0/In0"
         ]
       },
       "ZmodAWGController_0_sZmodDAC_CS": {
@@ -779,7 +764,6 @@
           "clk_wiz_0/locked",
           "proc_sys_reset_0/dcm_locked",
           "proc_sys_reset_1/dcm_locked",
-          "util_vector_logic_0/Op1",
           "xlconcat_0/In1"
         ]
       },
@@ -811,12 +795,6 @@
           "clk_wiz_0/clk_in1"
         ]
       },
-      "util_vector_logic_0_Res": {
-        "ports": [
-          "util_vector_logic_0/Res",
-          "xlconcat_0/In2"
-        ]
-      },
       "vio_0_probe_out0": {
         "ports": [
           "vio_0/probe_out0",
@@ -833,12 +811,6 @@
         "ports": [
           "xlconstant_0/dout",
           "AWG_Data_Feeder_0/data_2"
-        ]
-      },
-      "xlconstant_1_dout": {
-        "ports": [
-          "xlconstant_1/dout",
-          "ZmodAWGController_0/sDAC_EnIn"
         ]
       }
     }
