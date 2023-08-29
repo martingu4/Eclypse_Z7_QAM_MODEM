@@ -30,8 +30,8 @@ entity LED_dimmer is
         resetn      : in  std_logic;
 
         -- Input LEDs states
-        led0        : in  std_logic_vector(2 downto 0);
-        led1        : in  std_logic_vector(2 downto 0);
+        led0_in      : in  std_logic_vector(2 downto 0);
+        led1_in      : in  std_logic_vector(2 downto 0);
 
         -- (if needed, an input can be added to control the
         --  PWM outputs duty cycle to increase/decrease intensity)
@@ -87,7 +87,7 @@ begin
                     -- LED0
                     -----------------------------------------------
                     -- LED input is ON so apply PWM
-                    if(led0(i) = '1') then
+                    if(led0_in(i) = '1') then
 
                         -- At counter reset, set output
                         if(countVal = "00000000000000000") then
@@ -110,7 +110,7 @@ begin
                     -----------------------------------------------
                     -- LED1
                     -----------------------------------------------
-                    if(led1(i) = '1') then
+                    if(led1_in(i) = '1') then
                         if(countVal = "00000000000000000") then
                             led1_tmp(i) <= '1';
                         elsif(thresh = '1') then

@@ -23,7 +23,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity AWG_En is
-    Port(
+    port(
         -- Clock input
         clk         : in std_logic;
         -- Synchronous, active-low reset input

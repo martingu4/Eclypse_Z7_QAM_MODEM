@@ -23,10 +23,10 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity Modulator is
-    Generic (
+    generic (
         PRESCALE_FACTOR : integer := 12000
     );
-    Port (
+    port (
         -- Input clock and reset signals
         clk             : in std_logic;
         resetn          : in std_logic;
