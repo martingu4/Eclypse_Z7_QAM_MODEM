@@ -43,7 +43,7 @@ end SymRateGen;
 architecture Behavioral of SymRateGen is
 
     -- Counter for prescaling
-    signal presc_cnt    : integer range 0 to PRESCALE_FACTOR := 0;
+    signal presc_cnt    : integer range 0 to PRESCALE_FACTOR-1 := 0;
     
     -- Temporary output signal
     signal sym_ce_tmp   : std_logic := '0';
@@ -62,7 +62,7 @@ begin
             else
                 -- Symbol clock enable generator
                 if(presc_cnt = PRESCALE_FACTOR-1) then
-                    presc_cnt <= 1;
+                    presc_cnt <= 0;
                     sym_ce_tmp <= '1';
                 else
                     presc_cnt <= presc_cnt + 1;
