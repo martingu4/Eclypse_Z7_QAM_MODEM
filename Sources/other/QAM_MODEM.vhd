@@ -45,7 +45,12 @@ entity QAM_MODEM is
         dZmodDAC_Data   : out   std_logic_vector(13 downto 0);
         sZmodDAC_SetFS1 : out   std_logic;
         sZmodDAC_SetFS2 : out   std_logic;
-        sZmodDAC_EnOut  : out   std_logic
+        sZmodDAC_EnOut  : out   std_logic;
+
+        -- Zmod Digitizer module's I/Os
+        diZmodADC_Data  : in    std_logic_vector(13 downto 0);
+        DcoClkIn        : in    std_logic;
+
     );
 end QAM_MODEM;
 
@@ -108,7 +113,7 @@ architecture Behavioral of QAM_MODEM is
         sConfigError    : out   std_logic;
         cDataAxisTvalid : in    std_logic;
         cDataAxisTready : out   std_logic;
-        cDataAxisTdata  : in    std_logic_vector(31 DOWNTO 0);
+        cDataAxisTdata  : in    std_logic_vector(31 downto 0);
         sDAC_EnIn       : in    std_logic;
         sZmodDAC_CS     : out   std_logic;
         sZmodDAC_SCLK   : out   std_logic;
@@ -116,7 +121,7 @@ architecture Behavioral of QAM_MODEM is
         sZmodDAC_Reset  : out   std_logic;
         ZmodDAC_ClkIO   : out   std_logic;
         ZmodDAC_ClkIn   : out   std_logic;
-        dZmodDAC_Data   : out   std_logic_vector(13 DOWNTO 0);
+        dZmodDAC_Data   : out   std_logic_vector(13 downto 0);
         sZmodDAC_SetFS1 : out   std_logic;
         sZmodDAC_SetFS2 : out   std_logic;
         sZmodDAC_EnOut  : out   std_logic
@@ -162,6 +167,55 @@ architecture Behavioral of QAM_MODEM is
     signal AWGdata_d    : std_logic_vector(31 downto 0);
     signal AWGdata_v    : std_logic;
     signal AWGdata_r    : std_logic;
+    -------------------------------------------------------
+
+    -------------------------------------------------------
+    -- Zmod Digitizer controller
+    component ZmodDigitizerCtrl is
+    port(
+        SysClk100           : in  std_logic;
+        ClockGenPriRefClk   : in  std_logic;
+        sInitDoneClockGen   : out std_logic;
+        sPLL_LockClockGen   : out std_logic;
+        ZmodDcoClkOut       : out std_logic;
+        sZmodDcoPLL_Lock    : out std_logic;
+        aRst_n              : in  std_logic;
+        sInitDoneADC        : out std_logic;
+        sConfigError        : out std_logic;
+        sEnableAcquisition  : in  std_logic;
+        doDataAxisTvalid    : out std_logic;
+        doDataAxisTready    : in  std_logic;
+        doDataAxisTdata     : out std_logic_vector(31 downto 0);
+        sTestMode           : in  std_logic;
+        aZmodSync           : out std_logic;
+        DcoClkIn            : in  std_logic;
+        diZmodADC_Data      : in  std_logic_vector(13 downto 0);
+        sZmodADC_SDIO       : in out std_logic;
+        sZmodADC_CS         : out std_logic;
+        sZmodADC_Sclk       : out std_logic;
+        CG_InputClk_p       : out std_logic;
+        CG_InputClk_n       : out std_logic;
+        aCG_PLL_Lock        : in  std_logic;
+        aREFSEL             : out std_logic;
+        aHW_SW_CTRL         : out std_logic;
+        sPDNout_n           : out std_logic;
+        s_scl_i             : in  std_logic;
+        s_scl_o             : out std_logic;
+        s_scl_t             : out std_logic;
+        s_sda_i             : in  std_logic;
+        s_sda_o             : out std_logic;
+        s_sda_t             : out std_logic
+    );
+    end component ZmodDigitizerCtrl;
+
+    signal sInitDoneClockGen    : std_logic;
+    signal sPLL_LockClockGen    : std_logic;
+    signal ADCEn                : std_logic := '0';
+
+    -- AXI-stream interface for ADC data
+    signal ADCdata_d    : std_logic_vector(31 downto 0);
+    signal ADCdata_v    : std_logic;
+    signal ADCdata_r    : std_logic;
     -------------------------------------------------------
 
     -------------------------------------------------------
@@ -259,6 +313,59 @@ begin
     -- Convert the binary signal from 0-1 to 0-DAC_Full_Scale
     -- so we can visualize a binary signal on oscilloscope
     data_ch2 <= "0111111111111100" when sym_ce_hold = '1' else (others => '0');
+
+
+    -------------------------------------------------------
+    -- Digitizer IP and control
+    ZmodDigitizerCtrl_inst : ZmodDigitizerCtrl
+    port map(
+        SysClk100           => clk100,
+        ClockGenPriRefClk   => '0',
+        sInitDoneClockGen   => sInitDoneClockGen,
+        sPLL_LockClockGen   => sPLL_LockClockGen,
+        ZmodDcoClkOut       : out std_logic;
+        sZmodDcoPLL_Lock    : out std_logic;
+        aRst_n              => clk100_resetn,
+        sInitDoneADC        : out std_logic;
+        sConfigError        : out std_logic;
+        sEnableAcquisition  => ADCEn;
+        doDataAxisTvalid    => ADCdata_v,
+        doDataAxisTready    => ADCdata_r,
+        doDataAxisTdata     => ADCdata_d,
+        sTestMode           => '0'; -- TODO : instantiate a VIO to toggle testmode
+        aZmodSync           : out std_logic;
+        DcoClkIn            => DcoClkIn,
+        diZmodADC_Data      => diZmodADC_Data,
+        sZmodADC_SDIO       : in out std_logic;
+        sZmodADC_CS         : out std_logic;
+        sZmodADC_Sclk       : out std_logic;
+        CG_InputClk_p       : out std_logic;
+        CG_InputClk_n       : out std_logic;
+        aCG_PLL_Lock        : in  std_logic;
+        aREFSEL             : out std_logic;
+        aHW_SW_CTRL         : out std_logic;
+        sPDNout_n           : out std_logic;
+        s_scl_i             : in  std_logic;
+        s_scl_o             : out std_logic;
+        s_scl_t             : out std_logic;
+        s_sda_i             : in  std_logic;
+        s_sda_o             : out std_logic;
+        s_sda_t             : out std_logic
+    );
+
+    -- Whenever the sink is ready, enable the ADC
+        -- The IP's reference manual states this signal
+        -- should never be de-asserted after so hold it
+    process(clk100)
+    begin
+        if(rising_edge(clk)) then
+            if(ADCdata_r = '1') then
+                ADCEn <= '1';
+            else
+                ADCEn <= ADCEn;
+            end if;
+        end if;
+    end process;
 
     -------------------------------------------------------
     -- LED dimmer
