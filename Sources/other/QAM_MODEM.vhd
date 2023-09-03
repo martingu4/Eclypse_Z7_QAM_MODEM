@@ -22,6 +22,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+library UNISIM;
+use UNISIM.vcomponents.all;
+
 entity QAM_MODEM is
     port(
         -- 125MHz input clock
@@ -50,7 +53,18 @@ entity QAM_MODEM is
         -- Zmod Digitizer module's I/Os
         diZmodADC_Data  : in    std_logic_vector(13 downto 0);
         DcoClkIn        : in    std_logic;
-
+        --CG_InputClk_n : out std_logic; -- Unused for this
+        --CG_InputClk_p : out std_logic; -- IP customization
+        aCG_PLL_Lock    : in    std_logic;
+        aREFSEL         : out   std_logic;
+        aHW_SW_CTRL     : out   std_logic;
+        aZmodSync       : out   std_logic;
+        sPDNout_n       : out   std_logic;
+        sZmodADC_SDIO   : inout std_logic;
+        sZmodADC_CS     : out   std_logic;
+        sZmodADC_Sclk   : out   std_logic;
+        CDCE_SDA        : inout std_logic;
+        CDCE_SCL        : inout std_logic
     );
 end QAM_MODEM;
 
@@ -128,8 +142,8 @@ architecture Behavioral of QAM_MODEM is
     );
     end component ZmodAWGCtrl;
 
-    signal sInitDoneDAC : std_logic;
-    signal sConfigError : std_logic;
+    signal sInitDoneDAC     : std_logic;
+    signal sConfigErrorDAC  : std_logic;
     -------------------------------------------------------
 
 
@@ -190,7 +204,7 @@ architecture Behavioral of QAM_MODEM is
         aZmodSync           : out std_logic;
         DcoClkIn            : in  std_logic;
         diZmodADC_Data      : in  std_logic_vector(13 downto 0);
-        sZmodADC_SDIO       : in out std_logic;
+        sZmodADC_SDIO       : inout std_logic;
         sZmodADC_CS         : out std_logic;
         sZmodADC_Sclk       : out std_logic;
         CG_InputClk_p       : out std_logic;
@@ -208,9 +222,19 @@ architecture Behavioral of QAM_MODEM is
     );
     end component ZmodDigitizerCtrl;
 
-    signal sInitDoneClockGen    : std_logic;
-    signal sPLL_LockClockGen    : std_logic;
+    signal sInitDoneClockGen    : std_logic := '0';
+    signal sPLL_LockClockGen    : std_logic := '0';
     signal ADCEn                : std_logic := '0';
+    signal sZmodDcoPLL_Lock     : std_logic := '0';
+    signal sInitDoneADC         : std_logic := '0';
+    signal sConfigErrorADC      : std_logic := '1';
+    signal ZmodDcoClkOut        : std_logic := '0';
+    signal s_sda_i              : std_logic;
+    signal s_sda_o              : std_logic;
+    signal s_sda_t              : std_logic;
+    signal s_scl_i              : std_logic;
+    signal s_scl_o              : std_logic;
+    signal s_scl_t              : std_logic;
 
     -- AXI-stream interface for ADC data
     signal ADCdata_d    : std_logic_vector(31 downto 0);
@@ -273,7 +297,7 @@ begin
         aRst_n          => clk100_resetn,
         sTestMode       => '0', -- TODO : instantiate a VIO to toggle testmode
         sInitDoneDAC    => sInitDoneDAC,
-        sConfigError    => sConfigError,
+        sConfigError    => sConfigErrorDAC,
         cDataAxisTvalid => AWGdata_v,
         cDataAxisTready => AWGdata_r,
         cDataAxisTdata  => AWGdata_d,
@@ -323,34 +347,34 @@ begin
         ClockGenPriRefClk   => '0',
         sInitDoneClockGen   => sInitDoneClockGen,
         sPLL_LockClockGen   => sPLL_LockClockGen,
-        ZmodDcoClkOut       : out std_logic;
-        sZmodDcoPLL_Lock    : out std_logic;
+        ZmodDcoClkOut       => ZmodDcoClkOut,
+        sZmodDcoPLL_Lock    => sZmodDcoPLL_Lock,
         aRst_n              => clk100_resetn,
-        sInitDoneADC        : out std_logic;
-        sConfigError        : out std_logic;
-        sEnableAcquisition  => ADCEn;
+        sInitDoneADC        => sInitDoneADC,
+        sConfigError        => sConfigErrorADC,
+        sEnableAcquisition  => ADCEn,
         doDataAxisTvalid    => ADCdata_v,
         doDataAxisTready    => ADCdata_r,
         doDataAxisTdata     => ADCdata_d,
-        sTestMode           => '0'; -- TODO : instantiate a VIO to toggle testmode
-        aZmodSync           : out std_logic;
+        sTestMode           => '0', -- TODO : instantiate a VIO to toggle testmode
+        aZmodSync           => aZmodSync,
         DcoClkIn            => DcoClkIn,
         diZmodADC_Data      => diZmodADC_Data,
-        sZmodADC_SDIO       : in out std_logic;
-        sZmodADC_CS         : out std_logic;
-        sZmodADC_Sclk       : out std_logic;
-        CG_InputClk_p       : out std_logic;
-        CG_InputClk_n       : out std_logic;
-        aCG_PLL_Lock        : in  std_logic;
-        aREFSEL             : out std_logic;
-        aHW_SW_CTRL         : out std_logic;
-        sPDNout_n           : out std_logic;
-        s_scl_i             : in  std_logic;
-        s_scl_o             : out std_logic;
-        s_scl_t             : out std_logic;
-        s_sda_i             : in  std_logic;
-        s_sda_o             : out std_logic;
-        s_sda_t             : out std_logic
+        sZmodADC_SDIO       => sZmodADC_SDIO,
+        sZmodADC_CS         => sZmodADC_CS,
+        sZmodADC_Sclk       => sZmodADC_Sclk,
+        CG_InputClk_p       => open,
+        CG_InputClk_n       => open,
+        aCG_PLL_Lock        => aCG_PLL_Lock,
+        aREFSEL             => aREFSEL,
+        aHW_SW_CTRL         => aHW_SW_CTRL,
+        sPDNout_n           => sPDNout_n,
+        s_scl_i             => s_scl_i,
+        s_scl_o             => s_scl_o,
+        s_scl_t             => s_scl_t,
+        s_sda_i             => s_sda_i,
+        s_sda_o             => s_sda_o,
+        s_sda_t             => s_sda_t
     );
 
     -- Whenever the sink is ready, enable the ADC
@@ -358,7 +382,7 @@ begin
         -- should never be de-asserted after so hold it
     process(clk100)
     begin
-        if(rising_edge(clk)) then
+        if(rising_edge(clk100)) then
             if(ADCdata_r = '1') then
                 ADCEn <= '1';
             else
@@ -366,6 +390,33 @@ begin
             end if;
         end if;
     end process;
+
+    -- Instantiate OBUFTs for CDCE IIC interface
+    sda_IOBUF_inst : IOBUF
+    generic map (
+        DRIVE => 12,
+        IOSTANDARD => "LVCMOS18",
+        SLEW => "SLOW"
+    )
+    port map (
+        O   => s_sda_i,
+        IO  => CDCE_SDA,
+        I   => s_sda_o,
+        T   => s_sda_t
+    );
+
+    scl_IOBUF_inst : IOBUF
+    generic map (
+        DRIVE => 12,
+        IOSTANDARD => "LVCMOS18",
+        SLEW => "SLOW"
+    )
+    port map (
+        O   => s_scl_i,
+        IO  => CDCE_SCL,
+        I   => s_scl_o,
+        T   => s_scl_t
+    );
 
     -------------------------------------------------------
     -- LED dimmer
@@ -379,6 +430,6 @@ begin
         led1_out    => led1
     );
 
-    led1_h  <= sInitDoneDAC & locked & sConfigError;
+    led1_h  <= sInitDoneDAC & locked & sConfigErrorDAC;
     
 end Behavioral;
