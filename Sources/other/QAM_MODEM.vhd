@@ -236,10 +236,38 @@ architecture Behavioral of QAM_MODEM is
     signal s_scl_o              : std_logic;
     signal s_scl_t              : std_logic;
 
+    -- Signal that combines all status flags of the digitizer
+    signal ZmodDcoClkOut_resetn : std_logic := '0';
+
     -- AXI-stream interface for ADC data
-    signal ADCdata_d    : std_logic_vector(31 downto 0);
-    signal ADCdata_v    : std_logic;
-    signal ADCdata_r    : std_logic;
+    signal ADCdata_d            : std_logic_vector(31 downto 0);
+    signal ADCdata_v            : std_logic;
+    signal ADCdata_r            : std_logic;
+
+    component Digitizer_Sink is
+    port(
+        clk         : in  std_logic;
+        aresetn     : in  std_logic;
+        sink_valid  : in  std_logic;
+        sink_ready  : out std_logic;
+        sink_data   : in  std_logic_vector(31 downto 0)
+    );
+    end component Digitizer_Sink;
+
+    component reset_gen is
+    port(
+        slowest_sync_clk        : in  std_logic;
+        ext_reset_in            : in  std_logic;
+        aux_reset_in            : in  std_logic;
+        mb_debug_sys_rst        : in  std_logic;
+        dcm_locked              : in  std_logic;
+        mb_reset                : out std_logic;
+        bus_struct_reset        : out std_logic_vector(0 DOWNTO 0);
+        peripheral_reset        : out std_logic_vector(0 DOWNTO 0);
+        interconnect_aresetn    : out std_logic_vector(0 DOWNTO 0);
+        peripheral_aresetn      : out std_logic_vector(0 DOWNTO 0)
+    );
+    end component reset_gen;
     -------------------------------------------------------
 
     -------------------------------------------------------
@@ -380,16 +408,16 @@ begin
     -- Whenever the sink is ready, enable the ADC
         -- The IP's reference manual states this signal
         -- should never be de-asserted after so hold it
-    process(clk100)
-    begin
-        if(rising_edge(clk100)) then
-            if(ADCdata_r = '1') then
-                ADCEn <= '1';
-            else
-                ADCEn <= ADCEn;
-            end if;
-        end if;
-    end process;
+    --process(clk100)
+    --begin
+    --    if(rising_edge(clk100)) then
+    --        if(ADCdata_r = '1') then
+    --            ADCEn <= '1';
+    --        else
+    --            ADCEn <= ADCEn;
+    --        end if;
+    --    end if;
+    --end process;
 
     -- Instantiate OBUFTs for CDCE IIC interface
     sda_IOBUF_inst : IOBUF
@@ -417,6 +445,19 @@ begin
         I   => s_scl_o,
         T   => s_scl_t
     );
+
+    -------------------------------------------------------
+    -- Digitizer data sink
+    Digitizer_Sink_inst : Digitizer_Sink
+    port map(
+        clk         => ZmodDcoClkOut,
+        aresetn     => ZmodDcoClkOut_resetn,
+        sink_valid  => ADCdata_v,
+        sink_ready  => ADCdata_r,
+        sink_data   => ADCdata_d
+    );
+
+    ZmodDcoClkOut_resetn <= '0' when (sPLL_LockClockGen = '0' or sInitDoneClockGen = '0' or sZmodDcoPLL_Lock = '0' or sInitDoneADC = '0' or sConfigErrorADC = '1') else '1';
 
     -------------------------------------------------------
     -- LED dimmer

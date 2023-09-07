@@ -54,6 +54,7 @@ set_property -dict { PACKAGE_PIN P16  IOSTANDARD LVCMOS18 } [get_ports { sZmodDA
 #########################################################
 # Digitizer Clocks
 set_property -dict { PACKAGE_PIN W17   IOSTANDARD LVCMOS18 } [get_ports { DcoClkIn           }]; #IO_L13P_T2_MRCC Sch=syzygy_b_p2c_clk_p
+create_clock -name DcoClkIn -period 8.333 [get_ports DcoClkIn];
 
 # Digitizer Data
 set_property -dict { PACKAGE_PIN U16   IOSTANDARD LVCMOS18 } [get_ports { diZmodADC_Data[0]  }]; #IO_L15N_T2_DQS Sch=syzygy_b_s[24]
