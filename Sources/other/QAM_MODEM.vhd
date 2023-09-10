@@ -74,26 +74,26 @@ architecture Behavioral of QAM_MODEM is
     -- Clocks and resets generation
     component Clocks_Resets is
     port(
-        sys_clk         : in  std_logic;
-        ext_reset_in    : in  std_logic;
-        locked          : out std_logic;
-        clk100          : out std_logic;
-        clk120          : out std_logic;
-        clk120_shift    : out std_logic;
-        clk100_resetn   : out std_logic;
-        clk120_resetn   : out std_logic
+        sys_clk             : in  std_logic;
+        SampleClk           : in  std_logic;
+        ext_reset_in        : in  std_logic;
+        locked              : out std_logic;
+        SysClk100           : out std_logic;
+        SampleClk_shift     : out std_logic;
+        SysResetn           : out std_logic;
+        SampleResetn        : out std_logic
     );
     end component Clocks_Resets;
 
     -- Clocks
     signal locked           : std_logic;
-    signal clk100           : std_logic;
-    signal clk120           : std_logic;
-    signal clk120_shift     : std_logic;
+    signal SysClk100        : std_logic;
+    signal SampleClk        : std_logic;
+    signal SampleClk_shift  : std_logic;
 
     -- Resets
-    signal clk100_resetn    : std_logic;
-    signal clk120_resetn    : std_logic;
+    signal SysResetn        : std_logic := '0';
+    signal SampleResetn     : std_logic := '0';
     -------------------------------------------------------
 
     -------------------------------------------------------
@@ -228,7 +228,6 @@ architecture Behavioral of QAM_MODEM is
     signal sZmodDcoPLL_Lock     : std_logic := '0';
     signal sInitDoneADC         : std_logic := '0';
     signal sConfigErrorADC      : std_logic := '1';
-    signal ZmodDcoClkOut        : std_logic := '0';
     signal s_sda_i              : std_logic;
     signal s_sda_o              : std_logic;
     signal s_sda_t              : std_logic;
@@ -253,21 +252,6 @@ architecture Behavioral of QAM_MODEM is
         sink_data   : in  std_logic_vector(31 downto 0)
     );
     end component Digitizer_Sink;
-
-    component reset_gen is
-    port(
-        slowest_sync_clk        : in  std_logic;
-        ext_reset_in            : in  std_logic;
-        aux_reset_in            : in  std_logic;
-        mb_debug_sys_rst        : in  std_logic;
-        dcm_locked              : in  std_logic;
-        mb_reset                : out std_logic;
-        bus_struct_reset        : out std_logic_vector(0 DOWNTO 0);
-        peripheral_reset        : out std_logic_vector(0 DOWNTO 0);
-        interconnect_aresetn    : out std_logic_vector(0 DOWNTO 0);
-        peripheral_aresetn      : out std_logic_vector(0 DOWNTO 0)
-    );
-    end component reset_gen;
     -------------------------------------------------------
 
     -------------------------------------------------------
@@ -292,14 +276,14 @@ begin
     -- Clocks and resets generation
     Clocks_Resets_inst : Clocks_Resets
     port map(
-        sys_clk         => sys_clock,
-        ext_reset_in    => btn1,
-        locked          => locked,
-        clk100          => clk100,
-        clk120          => clk120,
-        clk120_shift    => clk120_shift,
-        clk100_resetn   => clk100_resetn,
-        clk120_resetn   => clk120_resetn
+        sys_clk             => sys_clock,
+        SampleClk           => SampleClk,
+        ext_reset_in        => btn1,
+        locked              => locked,
+        SysClk100           => SysClk100,
+        SampleClk_shift     => SampleClk_shift,
+        SysResetn           => SysResetn,
+        SampleResetn        => SampleResetn
     );
 
     -------------------------------------------------------
@@ -309,8 +293,8 @@ begin
         PRESCALE_FACTOR => 12000
     )
     port map(
-        clk             => clk120,
-        resetn          => clk120_resetn,
+        clk             => SampleClk,
+        resetn          => SampleResetn,
         m_sig_tdata     => mod_sig,
         sym_ce_hold     => sym_ce_hold
     );
@@ -319,10 +303,10 @@ begin
     -- AWG IP and control modules
     ZmodAWGCtrl_inst : ZmodAWGCtrl
     port map(
-        SysClk100       => clk100,
-        DAC_InIO_Clk    => clk120,
-        DAC_Clk         => clk120_shift,
-        aRst_n          => clk100_resetn,
+        SysClk100       => SysClk100,
+        DAC_InIO_Clk    => SampleClk,
+        DAC_Clk         => SampleClk_shift,
+        aRst_n          => SampleResetn,
         sTestMode       => '0', -- TODO : instantiate a VIO to toggle testmode
         sInitDoneDAC    => sInitDoneDAC,
         sConfigError    => sConfigErrorDAC,
@@ -344,8 +328,8 @@ begin
 
     AWG_En_inst : AWG_En
     port map(
-        clk             => clk100,
-        resetn          => clk100_resetn,
+        clk             => SysClk100,
+        resetn          => SysResetn,
         btn             => btn0,
         sDAC_EnIn       => sDAC_EnIn,
         led             => led0_h
@@ -353,8 +337,8 @@ begin
 
     AWG_Data_Feeder_inst : AWG_Data_Feeder
     port map(
-        clk             => clk120,
-        resetn          => clk120_resetn,
+        clk             => SampleClk,
+        resetn          => SampleResetn,
         data_1          => mod_sig,
         data_2          => data_ch2,
         feed_valid      => AWGdata_v,
@@ -371,13 +355,13 @@ begin
     -- Digitizer IP and control
     ZmodDigitizerCtrl_inst : ZmodDigitizerCtrl
     port map(
-        SysClk100           => clk100,
+        SysClk100           => SysClk100,
         ClockGenPriRefClk   => '0',
         sInitDoneClockGen   => sInitDoneClockGen,
         sPLL_LockClockGen   => sPLL_LockClockGen,
-        ZmodDcoClkOut       => ZmodDcoClkOut,
+        ZmodDcoClkOut       => SampleClk,
         sZmodDcoPLL_Lock    => sZmodDcoPLL_Lock,
-        aRst_n              => clk100_resetn,
+        aRst_n              => SysResetn,
         sInitDoneADC        => sInitDoneADC,
         sConfigError        => sConfigErrorADC,
         sEnableAcquisition  => ADCEn,
@@ -450,8 +434,8 @@ begin
     -- Digitizer data sink
     Digitizer_Sink_inst : Digitizer_Sink
     port map(
-        clk         => ZmodDcoClkOut,
-        aresetn     => ZmodDcoClkOut_resetn,
+        clk         => SampleClk,
+        aresetn     => SampleResetn,
         sink_valid  => ADCdata_v,
         sink_ready  => ADCdata_r,
         sink_data   => ADCdata_d
@@ -463,8 +447,8 @@ begin
     -- LED dimmer
     LED_dimmer_inst : LED_dimmer
     port map(
-        clk         => clk100,
-        resetn      => clk100_resetn,
+        clk         => SysClk100,
+        resetn      => SysResetn,
         led0_in     => led0_h,
         led1_in     => led1_h,
         led0_out    => led0,

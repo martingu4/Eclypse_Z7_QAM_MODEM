@@ -26,22 +26,22 @@ entity Clocks_Resets is
     port(
         -- 125 MHz system clock input
         sys_clk         : in  std_logic;
+        -- Sample clock input
+        SampleClk       : in  std_logic;
         -- External reset input
         ext_reset_in    : in  std_logic;
 
         -- DCM locked output
         locked          : out std_logic;
         -- 100 MHz clock output
-        clk100          : out std_logic;
-        -- 120 MHz clock output
-        clk120          : out std_logic;
-        -- 120 MHz with 90 degree phase shift clock output
-        clk120_shift    : out std_logic;
+        SysClk100       : out std_logic;
+        -- Sample clock with 90 degree phase shift
+        SampleClk_shift : out std_logic;
 
-        -- Active-low reset synchronous to clk100 output
-        clk100_resetn   : out std_logic;
-        -- Active-low reset synchronous to clk120 output
-        clk120_resetn   : out std_logic
+        -- Active-low reset synchronous to SysClk output
+        SysResetn       : out std_logic;
+        -- Active-low reset synchronous to SampleClk output
+        SampleResetn    : out std_logic
     );
 end Clocks_Resets;
 
@@ -50,20 +50,29 @@ architecture Behavioral of Clocks_Resets is
     -------------------------------------------------------
     -- Components definition
     -------------------------------------------------------
-    -- Clocking wizard
+    -- Clocking wizard for SysClk100 generation
     component clk_wiz_top is
     port(
         sys_clk                 : in  std_logic;
-        clk_100                 : out std_logic;
-        clk_120                 : out std_logic;
-        clk_120_shift           : out std_logic;
+        SysClk100               : out std_logic;
         locked                  : out std_logic
     );
     end component clk_wiz_top;
 
-    signal clk100_tmp           : std_logic;
-    signal clk120_tmp           : std_logic;
-    signal locked_tmp           : std_logic;
+    signal SysClk100_tmp        : std_logic := '0';
+    signal sys_locked_tmp       : std_logic := '0';
+
+    -- Clocking wizard for 90 degrees phase shifted sample clock
+    component clk_wiz_sample_shift is
+    port(
+        SampleClk               : in  std_logic;
+        SampleClk_shift         : out std_logic;
+        locked                  : out std_logic
+    );
+    end component clk_wiz_sample_shift;
+
+    signal SampleClk_shift_tmp  : std_logic := '0';
+    signal sample_locked_tmp    : std_logic := '0';
 
     -- Processor system reset
     component reset_gen is
@@ -80,9 +89,6 @@ architecture Behavioral of Clocks_Resets is
         peripheral_aresetn      : out std_logic_vector(0 DOWNTO 0)
     );
     end component reset_gen;
-    
-    signal clk100_resetn_tmp    : std_logic_vector(0 downto 0);
-    signal clk120_resetn_tmp    : std_logic_vector(0 downto 0);
 
 begin
 
@@ -93,47 +99,51 @@ begin
     clk_wiz_top_inst : clk_wiz_top
     port map(
         sys_clk                 => sys_clk,
-        clk_100                 => clk100_tmp,
-        clk_120                 => clk120_tmp,
-        clk_120_shift           => clk120_shift,
-        locked                  => locked_tmp
+        SysClk100               => SysClk100_tmp,
+        locked                  => sys_locked_tmp
     );
 
-    -- Clk100 synchronous reset
-    clk100_reset_gen_inst : reset_gen
+    -- SysClk100 synchronous reset
+    SysClk100_reset_gen_inst : reset_gen
     port map(
-        slowest_sync_clk        => clk100_tmp,
+        slowest_sync_clk        => SysClk100_tmp,
         ext_reset_in            => ext_reset_in,
         aux_reset_in            => '0',
         mb_debug_sys_rst        => '0',
-        dcm_locked              => locked_tmp,
+        dcm_locked              => sys_locked_tmp,
         mb_reset                => open,
         bus_struct_reset        => open,
         peripheral_reset        => open,
         interconnect_aresetn    => open,
-        peripheral_aresetn      => clk100_resetn_tmp
+        peripheral_aresetn(0)   => SysResetn
     );
 
-    -- Clk120 synchronous reset
-    clk120_reset_gen_inst : reset_gen
+    -- Sample clock phase shift clocking wizard
+    clk_wiz_sample_shift_inst : clk_wiz_sample_shift
     port map(
-        slowest_sync_clk        => clk120_tmp,
+        SampleClk               => SampleClk,
+        SampleClk_shift         => SampleClk_shift_tmp,
+        locked                  => sample_locked_tmp
+    );
+
+    -- Sample clock synchronous reset
+    SampleClk_reset_gen_inst : reset_gen
+    port map(
+        slowest_sync_clk        => SampleClk,
         ext_reset_in            => ext_reset_in,
         aux_reset_in            => '0',
         mb_debug_sys_rst        => '0',
-        dcm_locked              => locked_tmp,
+        dcm_locked              => sample_locked_tmp,
         mb_reset                => open,
         bus_struct_reset        => open,
         peripheral_reset        => open,
         interconnect_aresetn    => open,
-        peripheral_aresetn      => clk120_resetn_tmp
+        peripheral_aresetn(0)   => SampleResetn
     );
 
     -- Assign outputs
-    locked          <= locked_tmp;
-    clk100          <= clk100_tmp;
-    clk120          <= clk120_tmp;
-    clk100_resetn   <= clk100_resetn_tmp(0);
-    clk120_resetn   <= clk120_resetn_tmp(0);
+    locked          <= sys_locked_tmp and sample_locked_tmp;
+    SysClk100       <= SysClk100_tmp;
+    SampleClk_shift <= SampleClk_shift_tmp;
 
 end Behavioral;
