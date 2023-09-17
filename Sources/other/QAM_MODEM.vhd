@@ -70,6 +70,9 @@ end QAM_MODEM;
 
 architecture Behavioral of QAM_MODEM is
 
+    -- Debug attribute
+    attribute MARK_DEBUG : string;
+
     -------------------------------------------------------
     -- Clocks and resets generation
     component Clocks_Resets is
@@ -247,6 +250,7 @@ architecture Behavioral of QAM_MODEM is
     port(
         clk         : in  std_logic;
         aresetn     : in  std_logic;
+        sym_ce_hold : in  std_logic;
         sink_valid  : in  std_logic;
         sink_ready  : out std_logic;
         sink_data   : in  std_logic_vector(31 downto 0)
@@ -268,6 +272,14 @@ architecture Behavioral of QAM_MODEM is
     end component LED_dimmer;
 
     signal led1_h   : std_logic_vector(2 downto 0);
+    -------------------------------------------------------
+
+    -------------------------------------------------------
+    -- DEBUG
+    signal channel1_data    : std_logic_vector(15 downto 0) := (others => '0');
+    attribute MARK_DEBUG of channel1_data   : signal is "true";
+    attribute MARK_DEBUG of mod_sig         : signal is "true";
+    attribute MARK_DEBUG of sym_ce_hold     : signal is "true";
     -------------------------------------------------------
 
 begin
@@ -326,14 +338,16 @@ begin
         sZmodDAC_EnOut  => sZmodDAC_EnOut
     );
 
-    AWG_En_inst : AWG_En
-    port map(
-        clk             => SysClk100,
-        resetn          => SysResetn,
-        btn             => btn0,
-        sDAC_EnIn       => sDAC_EnIn,
-        led             => led0_h
-    );
+    sDAC_EnIn <= '1' when (sInitDoneDAC = '1' and sConfigErrorDAC = '0') else '0';
+
+    --AWG_En_inst : AWG_En
+    --port map(
+    --    clk             => SysClk100,
+    --    resetn          => SysResetn,
+    --    btn             => btn0,
+    --    sDAC_EnIn       => sDAC_EnIn,
+    --    led             => led0_h
+    --);
 
     AWG_Data_Feeder_inst : AWG_Data_Feeder
     port map(
@@ -389,19 +403,23 @@ begin
         s_sda_t             => s_sda_t
     );
 
+    -- No module sinks DAC data for now. Always ready for debug
+    ADCdata_r <= '1';
+    channel1_data <= ADCdata_d(31 downto 16);
+
     -- Whenever the sink is ready, enable the ADC
         -- The IP's reference manual states this signal
         -- should never be de-asserted after so hold it
-    --process(clk100)
-    --begin
-    --    if(rising_edge(clk100)) then
-    --        if(ADCdata_r = '1') then
-    --            ADCEn <= '1';
-    --        else
-    --            ADCEn <= ADCEn;
-    --        end if;
-    --    end if;
-    --end process;
+    process(SysClk100)
+    begin
+        if(rising_edge(SysClk100)) then
+            if(ADCdata_r = '1') then
+                ADCEn <= '1';
+            else
+                ADCEn <= ADCEn;
+            end if;
+        end if;
+    end process;
 
     -- Instantiate OBUFTs for CDCE IIC interface
     sda_IOBUF_inst : IOBUF
@@ -428,17 +446,6 @@ begin
         IO  => CDCE_SCL,
         I   => s_scl_o,
         T   => s_scl_t
-    );
-
-    -------------------------------------------------------
-    -- Digitizer data sink
-    Digitizer_Sink_inst : Digitizer_Sink
-    port map(
-        clk         => SampleClk,
-        aresetn     => SampleResetn,
-        sink_valid  => ADCdata_v,
-        sink_ready  => ADCdata_r,
-        sink_data   => ADCdata_d
     );
 
     ZmodDcoClkOut_resetn <= '0' when (sPLL_LockClockGen = '0' or sInitDoneClockGen = '0' or sZmodDcoPLL_Lock = '0' or sInitDoneADC = '0' or sConfigErrorADC = '1') else '1';
