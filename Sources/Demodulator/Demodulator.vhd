@@ -47,6 +47,9 @@ end Demodulator;
 
 architecture Behavioral of Demodulator is
 
+    -- Debug attribute
+    attribute MARK_DEBUG : string;
+
     -------------------------------------------------------------
     -- Components
     -------------------------------------------------------------
@@ -114,6 +117,14 @@ architecture Behavioral of Demodulator is
     signal data_tmp             : std_logic_vector(1 downto 0) := (others => '0');
     signal data_v_tmp           : std_logic := '0';
 
+    -------------------------------------------------------
+    -- DEBUG
+    signal I                    : std_logic_vector(15 downto 0) := (others => '0');
+    signal Q                    : std_logic_vector(15 downto 0) := (others => '0');
+    attribute MARK_DEBUG of I   : signal is "true";
+    attribute MARK_DEBUG of Q   : signal is "true";
+    -------------------------------------------------------
+
 begin
 
 
@@ -166,5 +177,11 @@ begin
     -- Assign output
     data    <= data_tmp;
     data_v  <= data_v_tmp;
+
+    -------------------------------------------------------
+    -- DEBUG
+    I   <= IQ(31 downto 16);
+    Q   <= IQ(15 downto 0);
+    -------------------------------------------------------
 
 end Behavioral;

@@ -246,16 +246,32 @@ architecture Behavioral of QAM_MODEM is
     signal ADCdata_v            : std_logic;
     signal ADCdata_r            : std_logic;
 
-    component Digitizer_Sink is
+    -------------------------------------------------------
+    -- Demodulator and phase offset VIO
+    component vio_0 is
     port(
-        clk         : in  std_logic;
-        aresetn     : in  std_logic;
-        sym_ce_hold : in  std_logic;
-        sink_valid  : in  std_logic;
-        sink_ready  : out std_logic;
-        sink_data   : in  std_logic_vector(31 downto 0)
+        clk                     : in std_logic;
+        probe_out0              : out std_logic_vector(15 downto 0);
+        probe_out1              : out std_logic_vector(0 downto 0)
     );
-    end component Digitizer_Sink;
+    end component vio_0;
+
+    component Demodulator is
+    port(
+        clk             : in std_logic;
+        resetn          : in std_logic;
+        ph_offset_valid : in  std_logic;
+        ph_offset_data  : in  std_logic_vector(15 downto 0);
+        mod_sig         : in  std_logic_vector(15 downto 0);
+        data            : out std_logic_vector(1 downto 0);
+        data_v          : out std_logic
+    );
+    end component Demodulator;
+
+    signal demod_data           : std_logic_vector(1 downto 0) := "00";
+    signal demod_valid          : std_logic := '0';
+    signal ph_offset_data       : std_logic_vector(15 downto 0) := (others => '0');
+    signal ph_offset_valid      : std_logic := '0';
     -------------------------------------------------------
 
     -------------------------------------------------------
@@ -276,10 +292,10 @@ architecture Behavioral of QAM_MODEM is
 
     -------------------------------------------------------
     -- DEBUG
-    signal channel1_data    : std_logic_vector(15 downto 0) := (others => '0');
-    attribute MARK_DEBUG of channel1_data   : signal is "true";
-    attribute MARK_DEBUG of mod_sig         : signal is "true";
-    attribute MARK_DEBUG of sym_ce_hold     : signal is "true";
+    --attribute MARK_DEBUG of mod_sig         : signal is "true";
+    --attribute MARK_DEBUG of sym_ce_hold     : signal is "true";
+    attribute MARK_DEBUG of demod_data      : signal is "true";
+    attribute MARK_DEBUG of demod_valid     : signal is "true";
     -------------------------------------------------------
 
 begin
@@ -302,7 +318,7 @@ begin
     -- Modulator
     Modulator_inst : Modulator
     generic map(
-        PRESCALE_FACTOR => 12000
+        PRESCALE_FACTOR => 100
     )
     port map(
         clk             => SampleClk,
@@ -403,9 +419,28 @@ begin
         s_sda_t             => s_sda_t
     );
 
-    -- No module sinks DAC data for now. Always ready for debug
+    -- ADC always ready
     ADCdata_r <= '1';
-    channel1_data <= ADCdata_d(31 downto 16);
+
+    -- Demodulator carriers' phase offset VIO
+    vio_0_inst : vio_0
+    port map(
+        clk                 => SampleClk,
+        probe_out0          => ph_offset_data,
+        probe_out1(0)       => ph_offset_valid
+    );
+
+    -- Demodulator
+    Demodulator_inst : Demodulator
+    port map(
+        clk                 => SampleClk,
+        resetn              => SampleResetn,
+        ph_offset_valid     => ph_offset_valid,
+        ph_offset_data      => ph_offset_data,
+        mod_sig             => ADCdata_d(31 downto 16),
+        data                => demod_data,
+        data_v              => demod_valid
+    );
 
     -- Whenever the sink is ready, enable the ADC
         -- The IP's reference manual states this signal

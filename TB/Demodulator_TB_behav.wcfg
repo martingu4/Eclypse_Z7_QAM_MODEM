@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="169.800001 us"></ZoomEndTime>
-      <Cursor1Time time="1.000000 us"></Cursor1Time>
+      <ZoomStartTime time="34.721801 us"></ZoomStartTime>
+      <ZoomEndTime time="43.251802 us"></ZoomEndTime>
+      <Cursor1Time time="26.067663 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="115"></NameColumnWidth>
-      <ValueColumnWidth column_width="67"></ValueColumnWidth>
+      <ValueColumnWidth column_width="63"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="23" />
    <wvobject fp_name="/Demodulator_TB/clk" type="logic">
@@ -432,7 +432,6 @@
       <obj_property name="ElementShortName">Q[15:0]</obj_property>
       <obj_property name="ObjectShortName">Q[15:0]</obj_property>
       <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
       <obj_property name="AnalogYRangeMin">0.000000</obj_property>
       <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
       <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
@@ -458,7 +457,6 @@
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
       <obj_property name="radix_fractionWidth">11</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
-      <obj_property name="CellHeight">100</obj_property>
       <wvobject fp_name="/Demodulator_TB/Demodulator_inst/LPF_IQ_Recovery_inst/m_axis_data_tdata[31]" type="logic">
          <obj_property name="ElementShortName">[31]</obj_property>
          <obj_property name="ObjectShortName">[31]</obj_property>

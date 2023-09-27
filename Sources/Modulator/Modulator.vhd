@@ -44,6 +44,9 @@ end Modulator;
 
 architecture Behavioral of Modulator is
 
+    -- Debug attribute
+    attribute MARK_DEBUG : string;
+
     -- Output modulated signal master AXI Stream interface
 --    ATTRIBUTE X_INTERFACE_INFO : STRING;
 --    ATTRIBUTE X_INTERFACE_INFO of m_sig_tdata: SIGNAL is "xilinx.com:interface:axis:1.0 m_mod_sig TDATA";
@@ -121,6 +124,11 @@ architecture Behavioral of Modulator is
     signal mod_sig          : std_logic_vector(15 downto 0) := (others => '0');
     signal sym_ce_hold_tmp  : std_logic                     := '0';
     
+    -------------------------------------------------------
+    -- DEBUG
+    attribute MARK_DEBUG of symbols     : signal is "true";
+    -------------------------------------------------------
+
 begin
 
     -- Symbol rate generator module instantiation
